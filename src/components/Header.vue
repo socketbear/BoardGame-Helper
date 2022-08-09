@@ -45,8 +45,10 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
                   Gesture
                 </a>
               </MenuItem>
-              <MenuItem disabled>
-                <span class="opacity-75">Invite a friend (coming soon!)</span>
+              <MenuItem v-slot="{ active }">
+                <a :class="{ 'bg-blue-500': active }" href="/sandbox/el-drag-drop">
+                  Element Drag n Drop
+                </a>
               </MenuItem>
             </MenuItems>
           </div>

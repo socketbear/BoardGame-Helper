@@ -20,6 +20,7 @@
     "@vueuse/head": "^0.7.6",
     "@vueuse/motion": "2.0.0-beta.12",
     "global": "^4.4.0",
+    "interactjs": "^1.10.17",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.14",
     "prism-theme-vars": "^0.2.3",
