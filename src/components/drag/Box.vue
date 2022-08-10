@@ -10,7 +10,9 @@ const props = defineProps({
 })
 
 const position = { x: 0, y: 0 }
+
 onMounted(() => {
+  // drag 가능하게 구성
   interact(`.${props.boxData.title}-draggable`).draggable({
     listeners: {
       move(event) {
@@ -26,6 +28,13 @@ onMounted(() => {
         event.target.style.transform
         = `translate(${position.x}px, ${position.y}px)`
       },
+    },
+  })
+
+  // drop 가능하게 구성
+  interact(`.${props.boxData.title}-draggable`).dropzone({
+    ondrop(event) {
+      console.log('drop event :>>>', event)
     },
   })
 })
