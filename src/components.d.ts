@@ -7,6 +7,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     BoardIndex: typeof import('./components/BoardIndex.md')['default']
     Box: typeof import('./components/drag/Box.vue')['default']
+    Calculator: typeof import('./components/tools/Calculator.vue')['default']
     Counter: typeof import('./components/Counter.vue')['default']
     Footer: typeof import('./components/Footer.vue')['default']
     Header: typeof import('./components/Header.vue')['default']
