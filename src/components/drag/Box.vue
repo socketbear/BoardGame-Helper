@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import type { PropType } from 'vue'
+// https://interactjs.io/docs/
 import interact from 'interactjs'
 interface BoxData {
+  id: string
   title: string
 }
 
@@ -34,14 +36,21 @@ onMounted(() => {
   // drop 가능하게 구성
   interact(`.${props.boxData.title}-draggable`).dropzone({
     ondrop(event) {
-      console.log('drop event :>>>', event)
+      const from = event.relatedTarget.getAttribute('data-id')
+      const to = event.target.getAttribute('data-id')
+      console.log('drop event :>>>', event , `from[${from}] -> to[${to}]`)
     },
   })
+})
+
+onBeforeUnmount(() => {
+  interact(`.${props.boxData.title}-draggable`).off(['draggable', 'dropzone'])
 })
 </script>
 
 <template>
-  <div class="w-32 h-32 bg-blue-400 rounded-lg border-4 border-blue-600 touch-none select-none" :class="`${props.boxData.title}-draggable`">
+  <div class="w-32 h-32 bg-blue-400 rounded-lg border-4 border-blue-600 touch-none select-none"
+    :class="`${props.boxData.title}-draggable`" :data-id="props.boxData.id">
     {{ props.boxData.title }}
   </div>
 </template>
