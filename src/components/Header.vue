@@ -13,18 +13,8 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
           <MenuButton>Games</MenuButton>
           <div class="fixed">
             <MenuItems class="flex flex-col">
-              <MenuItem v-slot="{ active }">
-              <a :class="{ 'bg-blue-500': active }" href="/account-settings">
-                Account settings
-              </a>
-              </MenuItem>
-              <MenuItem v-slot="{ active }">
-              <a :class="{ 'bg-blue-500': active }" href="/account-settings">
-                Documentation
-              </a>
-              </MenuItem>
               <MenuItem disabled>
-              <span class="opacity-75">Invite a friend (coming soon!)</span>
+                <span class="opacity-75">Rich! (coming soon!)</span>
               </MenuItem>
             </MenuItems>
           </div>
@@ -36,24 +26,29 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
           <div class="fixed">
             <MenuItems class="flex flex-col">
               <MenuItem v-slot="{ active }">
-              <a :class="{ 'bg-blue-500': active }" href="/sandbox/dice">
-                Dice
-              </a>
+                <a :class="{ 'bg-blue-500': active }" href="/sandbox/dice">
+                  Dice
+                </a>
               </MenuItem>
               <MenuItem v-slot="{ active }">
-              <a :class="{ 'bg-blue-500': active }" href="/sandbox/gesture">
-                Gesture
-              </a>
+                <a :class="{ 'bg-blue-500': active }" href="/sandbox/gesture">
+                  Gesture
+                </a>
               </MenuItem>
               <MenuItem v-slot="{ active }">
-              <a :class="{ 'bg-blue-500': active }" href="/sandbox/el-drag-drop">
-                Element Drag n Drop
-              </a>
+                <a :class="{ 'bg-blue-500': active }" href="/sandbox/el-drag-drop">
+                  Element Drag n Drop
+                </a>
               </MenuItem>
               <MenuItem v-slot="{ active }">
-              <a :class="{ 'bg-blue-500': active }" href="/sandbox/calc">
-                Calculator
-              </a>
+                <a :class="{ 'bg-blue-500': active }" href="/sandbox/calc">
+                  Calculator
+                </a>
+              </MenuItem>
+              <MenuItem v-slot="{ active }">
+                <a :class="{ 'bg-blue-500': active }" href="/sandbox/gsap">
+                  GSAP
+                </a>
               </MenuItem>
             </MenuItems>
           </div>

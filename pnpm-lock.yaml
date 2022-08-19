@@ -20,6 +20,7 @@ specifiers:
   eslint: ^8.18.0
   eslint-plugin-cypress: ^2.12.1
   global: ^4.4.0
+  gsap: ^3.11.0
   https-localhost: ^4.7.1
   interactjs: ^1.10.17
   markdown-it-link-attributes: ^4.0.0
@@ -56,6 +57,7 @@ dependencies:
   '@vueuse/head': 0.7.6_vue@3.2.37
   '@vueuse/motion': 2.0.0-beta.12_vue@3.2.37
   global: 4.4.0
+  gsap: 3.11.0
   interactjs: 1.10.17
   nprogress: 0.2.0
   pinia: 2.0.14_j6bzmzd4ujpabbp5objtwxyjp4
@@ -4588,6 +4590,10 @@ packages:
       section-matter: 1.0.0
       strip-bom-string: 1.0.0
     dev: true
+
+  /gsap/3.11.0:
+    resolution: {integrity: sha512-TV5aFGqXht+0o/CelnhCikSe3QGeG+q1XA/fyFFsMzesILHgWgFWIz0NuXIgcMaL5h7MG2l+j0BTupS5YyYkrw==}
+    dev: false
 
   /gzip-size/6.0.0:
     resolution: {integrity: sha512-ax7ZYomf6jqPTQ4+XCpUGyXKHk5WweS+e05MBO4/y3WJ5RkmPXNKvX+bx1behVILVwr6JSQvZAku021CHPXG3Q==}
