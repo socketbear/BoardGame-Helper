@@ -102,10 +102,10 @@ defineExpose({ getNum })
 <template>
   <div class="grid grid-cols-4 grid-rows-6 gap-2">
     <div class="col-span-4 calc-border">
-      <div class="text-slate-400 text-sm text-right my-2 mr-2 h-4">
+      <div class="text-slate-400 text-sm text-right my-1 mr-2 h-4">
         {{ `${accStrings.join(' ')}` }}
       </div>
-      <div class="text-xl text-right mr-2 mb-2">
+      <div class="text-xl text-right mr-2 mb-1">
         {{ printNumber.toLocaleString() }}
       </div>
     </div>
