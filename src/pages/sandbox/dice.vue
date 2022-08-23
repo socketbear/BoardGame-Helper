@@ -1,5 +1,10 @@
 <script setup lang="ts">
 import DiceBox from '@3d-dice/dice-box'
+import { useSound } from '@vueuse/sound'
+import diceSfx from '/assets/sounds/dice.mp3'
+
+const { play: playDiceSfx } = useSound(diceSfx)
+
 let diceBox
 onMounted(() => {
   diceBox = new DiceBox('#dice-box', {
@@ -7,10 +12,12 @@ onMounted(() => {
   })
   diceBox.init().then(() => {
     diceBox.onRollComplete = rollResult => console.log('roll results', rollResult)
+    playDiceSfx()
     diceBox.roll('2d6')
   })
 })
 const reRoll = () => {
+  playDiceSfx()
   diceBox.roll('2d6')
 }
 </script>
