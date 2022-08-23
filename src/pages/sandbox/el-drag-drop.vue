@@ -11,11 +11,11 @@ interface popupState {
   title: string
 }
 
-const boxData: avatar[] = [
-  { id: 'A', name: '아빠', budget: 0, unit: '원' },
-  { id: 'B', name: '아들', budget: 0, unit: '원' },
-  { id: 'C', name: '기부금', budget: 0, unit: '원' },
-]
+const boxData: avatar[] = reactive([
+  { id: 'A', name: '아빠', budget: 0, unit: '₩' },
+  { id: 'B', name: '아들', budget: 0, unit: '₩' },
+  { id: 'C', name: '기부금', budget: 0, unit: '₩' },
+])
 
 const calcState: popupState = reactive({
   show: false,
@@ -76,8 +76,9 @@ const doneUseCalc = () => {
       <div class="text-xl font-bold">
         {{ b.name }}
       </div>
-      <div class="w-full text-right pr-2 pt-8">
-        {{ `${b.budget.toLocaleString()} ${b.unit}` }}
+      <div class="flex justify-end w-full pr-2 pt-8">
+        <span class="mr-1">{{ `${b.unit}` }}</span>
+        <CountNumber v-model="b.budget" />
       </div>
     </Box>
   </div>

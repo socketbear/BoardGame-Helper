@@ -2,6 +2,7 @@
 import gsap from 'gsap'
 
 const counter = ref<HTMLDListElement>()
+const counter2 = ref(6000)
 
 onMounted(() => {
   const zero = { val: 5000 }
@@ -22,6 +23,7 @@ onMounted(() => {
     <div ref="counter" class="animate-num">
       5000
     </div>
+    <CountNumber v-model="counter2" />
   </div>
 </template>
 

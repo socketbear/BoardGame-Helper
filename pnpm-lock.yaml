@@ -6,6 +6,7 @@ specifiers:
   '@headlessui/vue': ^1.6.7
   '@iconify-json/carbon': ^1.1.6
   '@intlify/vite-plugin-vue-i18n': ^4.0.0
+  '@types/lodash': ^4.14.184
   '@types/markdown-it-link-attributes': ^3.0.1
   '@types/nprogress': ^0.2.0
   '@vitejs/plugin-vue': ^2.3.3
@@ -23,6 +24,7 @@ specifiers:
   gsap: ^3.11.0
   https-localhost: ^4.7.1
   interactjs: ^1.10.17
+  lodash: ^4.17.21
   markdown-it-link-attributes: ^4.0.0
   markdown-it-prism: ^2.2.4
   nprogress: ^0.2.0
@@ -59,6 +61,7 @@ dependencies:
   global: 4.4.0
   gsap: 3.11.0
   interactjs: 1.10.17
+  lodash: 4.17.21
   nprogress: 0.2.0
   pinia: 2.0.14_j6bzmzd4ujpabbp5objtwxyjp4
   prism-theme-vars: 0.2.3
@@ -72,6 +75,7 @@ devDependencies:
   '@antfu/eslint-config': 0.25.2_b5e7v2qnwxfo6hmiq56u52mz3e
   '@iconify-json/carbon': 1.1.6
   '@intlify/vite-plugin-vue-i18n': 4.0.0_ok2vr3izc5tvtuuot2yw6handq
+  '@types/lodash': 4.14.184
   '@types/markdown-it-link-attributes': 3.0.1
   '@types/nprogress': 0.2.0
   '@vitejs/plugin-vue': 2.3.3_vite@2.9.13+vue@3.2.37
@@ -1749,6 +1753,10 @@ packages:
 
   /@types/linkify-it/3.0.2:
     resolution: {integrity: sha512-HZQYqbiFVWufzCwexrvh694SOim8z2d+xJl5UNamcvQFejLY/2YUtzXHYi3cHdI7PMlS8ejH2slRAOJQ32aNbA==}
+    dev: true
+
+  /@types/lodash/4.14.184:
+    resolution: {integrity: sha512-RoZphVtHbxPZizt4IcILciSWiC6dcn+eZ8oX9IWEYfDMcocdd42f7NPI6fQj+6zI8y4E0L7gu2pcZKLGTRaV9Q==}
     dev: true
 
   /@types/markdown-it-link-attributes/3.0.1:
@@ -5401,7 +5409,6 @@ packages:
 
   /lodash/4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
-    dev: true
 
   /log-symbols/4.1.0:
     resolution: {integrity: sha512-8XPvpAA8uyhfteu8pIvQxpJZ7SYYdpUivZpGy6sFsBuKRY/7rQGavedeB8aK+Zkyq6upMFVL/9AW6vOYzfRyLg==}
