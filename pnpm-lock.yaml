@@ -15,6 +15,7 @@ specifiers:
   '@vueuse/gesture': 2.0.0-beta.1
   '@vueuse/head': ^0.7.6
   '@vueuse/motion': 2.0.0-beta.12
+  '@vueuse/sound': ^1.1.7
   critters: ^0.0.16
   cross-env: ^7.0.3
   cypress: ^10.3.0
@@ -58,6 +59,7 @@ dependencies:
   '@vueuse/gesture': 2.0.0-beta.1_vue@3.2.37
   '@vueuse/head': 0.7.6_vue@3.2.37
   '@vueuse/motion': 2.0.0-beta.12_vue@3.2.37
+  '@vueuse/sound': 1.1.7_vue@3.2.37
   global: 4.4.0
   gsap: 3.11.0
   interactjs: 1.10.17
@@ -2208,6 +2210,15 @@ packages:
       '@vue/compiler-dom': 3.2.37
       '@vue/shared': 3.2.37
 
+  /@vue/composition-api/1.7.0_vue@3.2.37:
+    resolution: {integrity: sha512-hxOgLYR+wjuPX9bkP2pAPlqUs98XxBoa9DSLyp1z6+YR92wC42PZcZKs4d+VRtcv4udOv041Kss+F6ap5nj8YA==}
+    requiresBuild: true
+    peerDependencies:
+      vue: '>= 2.5 < 2.7'
+    dependencies:
+      vue: 3.2.37
+    dev: false
+
   /@vue/devtools-api/6.1.4:
     resolution: {integrity: sha512-IiA0SvDrJEgXvVxjNkHPFfDx6SXw0b/TUkqMcDZWNg9fnCAHbTpoo59YfJ9QLFkwa3raau5vSlRVzMSLDnfdtQ==}
 
@@ -2346,6 +2357,17 @@ packages:
     dependencies:
       vue: 3.2.37
       vue-demi: 0.13.1_vue@3.2.37
+
+  /@vueuse/sound/1.1.7_vue@3.2.37:
+    resolution: {integrity: sha512-rn4uIeEz9SqZ82KroFQ4OGXRIZ8cLlvfk/CxfZBBkjfRjE1VpanzKYCAoN3dD716dBfLPsAa6Aq7VV6TpZCpVw==}
+    dependencies:
+      howler: 2.2.3
+      vue-demi: 0.13.8_3nmzzoefrdru4lagmst3ha3a3q
+    optionalDependencies:
+      '@vue/composition-api': 1.7.0_vue@3.2.37
+    transitivePeerDependencies:
+      - vue
+    dev: false
 
   /abab/2.0.6:
     resolution: {integrity: sha512-j2afSsaIENvHZN2B8GOpF566vZ5WVk5opAiMTvWgaQT8DkbOqsTfvNAvHoRGU2zzP8cPoqys+xHTRDWW8L+/BA==}
@@ -4665,6 +4687,10 @@ packages:
   /hosted-git-info/2.8.9:
     resolution: {integrity: sha512-mxIDAb9Lsm6DoOJ7xH+5+X4y1LU/4Hi50L9C5sIswK3JzULS4bwk1FvjdBgvYR4bzT4tuUQiC15FE2f5HbLvYw==}
     dev: true
+
+  /howler/2.2.3:
+    resolution: {integrity: sha512-QM0FFkw0LRX1PR8pNzJVAY25JhIWvbKMBFM4gqk+QdV+kPXOhleWGCB6AiAF/goGjIHK2e/nIElplvjQwhr0jg==}
+    dev: false
 
   /hpack.js/2.1.6:
     resolution: {integrity: sha1-h3dMCUnlE/QuhFdbPEVoH63ioLI=}
@@ -7540,6 +7566,22 @@ packages:
         optional: true
     dependencies:
       vue: 3.2.37
+
+  /vue-demi/0.13.8_3nmzzoefrdru4lagmst3ha3a3q:
+    resolution: {integrity: sha512-Vy1zbZhCOdsmvGR6tJhAvO5vhP7eiS8xkbYQSoVa7o6KlIy3W8Rc53ED4qI4qpeRDjv3mLfXSEpYU6Yq4pgXRg==}
+    engines: {node: '>=12'}
+    hasBin: true
+    requiresBuild: true
+    peerDependencies:
+      '@vue/composition-api': ^1.0.0-rc.1
+      vue: ^3.0.0-0 || ^2.6.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+    dependencies:
+      '@vue/composition-api': 1.7.0_vue@3.2.37
+      vue: 3.2.37
+    dev: false
 
   /vue-eslint-parser/9.0.2_eslint@8.18.0:
     resolution: {integrity: sha512-uCPQwTGjOtAYrwnU+76pYxalhjsh7iFBsHwBqDHiOPTxtICDaraO4Szw54WFTNZTAEsgHHzqFOu1mmnBOBRzDA==}

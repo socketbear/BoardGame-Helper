@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { avatar } from '~/types'
 import Calculator from '~/components/tools/Calculator.vue'
+import { useSound } from '@vueuse/sound'
+import cashResiterSfx from '/assets/sounds/cash-register.mp3'
 const calc = ref<InstanceType<typeof Calculator>>()
 
 interface popupState {
@@ -22,6 +24,8 @@ const calcState: popupState = reactive({
   state: '', // add, transfer
   title: '',
 })
+
+const { play: playCashSfx } = useSound(cashResiterSfx)
 
 const dropped = (from: string, to: string) => {
   setTimeout(() => {
@@ -66,6 +70,7 @@ const doneUseCalc = () => {
       calcState.to.budget += transMoney
     }
   }
+  playCashSfx()
   calcState.show = false
 }
 </script>
