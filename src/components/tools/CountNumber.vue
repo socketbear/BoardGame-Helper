@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import gsap from 'gsap'
-import throttle from 'lodash/throttle'
+import throttle from 'lodash/throttle.js'
 const props = defineProps({
   modelValue: { type: Number, required: true },
 })
