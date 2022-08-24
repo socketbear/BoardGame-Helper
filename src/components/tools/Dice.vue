@@ -6,7 +6,7 @@ import diceSfx from '/assets/sounds/dice.mp3'
 const { play: playDiceSfx } = useSound(diceSfx)
 
 let diceBox
-onMounted(() => {
+onMounted(async () => {
   diceBox = new DiceBox('#dice-box', {
     assetPath: '/assets/dice-box/', // required
   })
@@ -32,8 +32,3 @@ const reRoll = () => {
   height: 100%;
 }
 </style>
-
-<route lang="yaml">
-meta:
-  layout: board
-</route>

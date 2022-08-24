@@ -26,7 +26,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
           <div class="fixed">
             <MenuItems class="flex flex-col">
               <MenuItem v-slot="{ active }">
-                <a :class="{ 'bg-blue-500': active }" href="/sandbox/dice">
+                <a :class="{ 'bg-blue-500': active }" href="/sandbox/dice-pad">
                   Dice
                 </a>
               </MenuItem>
