@@ -10,6 +10,7 @@ declare module '@vue/runtime-core' {
     Calculator: typeof import('./components/tools/Calculator.vue')['default']
     Counter: typeof import('./components/Counter.vue')['default']
     CountNumber: typeof import('./components/tools/CountNumber.vue')['default']
+    Dice: typeof import('./components/tools/Dice.vue')['default']
     Footer: typeof import('./components/Footer.vue')['default']
     Header: typeof import('./components/Header.vue')['default']
     README: typeof import('./components/README.md')['default']
