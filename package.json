@@ -15,6 +15,7 @@
   "dependencies": {
     "@3d-dice/dice-box": "^1.0.5",
     "@headlessui/vue": "^1.6.7",
+    "@unocss/reset": "^0.45.12",
     "@vueuse/core": "^8.7.5",
     "@vueuse/gesture": "2.0.0-beta.1",
     "@vueuse/head": "^0.7.6",

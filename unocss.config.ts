@@ -8,6 +8,7 @@ import {
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
+const colors: string[] = ['red', 'blue', 'green', 'orange', 'amber', 'yellow', 'lime', 'emerald', 'teal', 'cyan', 'sky', 'indigo', 'violet', 'purple', 'pink', 'rose']
 
 export default defineConfig({
   shortcuts: [
@@ -35,5 +36,9 @@ export default defineConfig({
     transformerDirectives(),
     transformerVariantGroup(),
   ],
-  safelist: 'prose prose-sm m-auto text-left'.split(' '),
+  safelist: [
+    ...'prose prose-sm m-auto text-left'.split(' '),
+    ...Array.from({ length: colors.length }, (_, i) => `bg-${colors[i]}-400`),
+    ...Array.from({ length: colors.length }, (_, i) => `border-${colors[i]}-600`),
+  ],
 })

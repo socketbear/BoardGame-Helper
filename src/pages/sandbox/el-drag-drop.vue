@@ -77,15 +77,15 @@ const doneUseCalc = () => {
 
 <template>
   <div class="flex w-128 h-128">
-    <Box v-for="b in boxData" :key="`box-${b.id}`" :box-data="b" @dropped="dropped" @click="addMoney(b)">
+    <drag-box v-for="b in boxData" :key="`box-${b.id}`" :box-data="b" @dropped="dropped" @click="addMoney(b)">
       <div class="text-xl font-bold">
         {{ b.name }}
       </div>
       <div class="flex justify-end w-full pr-2 pt-8">
         <span class="mr-1">{{ `${b.unit}` }}</span>
-        <CountNumber v-model="b.budget" />
+        <tools-count-number v-model="b.budget" />
       </div>
-    </Box>
+    </drag-box>
   </div>
   <div v-if="calcState.show" ref="calcPop" :style="style" style="position: fixed" class="bg-slate-100">
     <div class="flex">
