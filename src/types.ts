@@ -10,14 +10,14 @@ export interface avatar {
   trans?: number
 }
 
-export interface FinancialTypeList {
+export interface IFinancialTypeList {
   id: string
   name: string
   inout?: string
   amount?: number
-  children?: FinancialTypeList[]
+  children?: IFinancialTypeList[]
 }
-export interface FinancialStatementProps {
+export interface IFinancialStatementProps {
   title: string
-  typeList: FinancialTypeList[]
+  typeList: IFinancialTypeList[]
 }

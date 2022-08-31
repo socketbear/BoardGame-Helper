@@ -1,17 +1,7 @@
 <script setup lang="ts">
-const { title, typeList } = defineProps<FinancialStatementProps>()
-// import type { FinancialStatementProps } from '~/types'
-interface FinancialTypeList {
-  id: string
-  name: string
-  inout?: string
-  amount?: number
-  children?: FinancialTypeList[]
-}
-interface FinancialStatementProps {
-  title: string
-  typeList: FinancialTypeList[]
-}
+import type { IFinancialStatementProps } from '~/types'
+interface Props extends IFinancialStatementProps {}
+const { title, typeList } = defineProps<Props>()
 
 const num = $ref(0)
 
