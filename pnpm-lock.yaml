@@ -43,6 +43,7 @@ specifiers:
   vite-plugin-pwa: ^0.12.1
   vite-plugin-vue-layouts: ^0.6.0
   vite-plugin-vue-markdown: ^0.20.0
+  vite-plugin-vue-type-imports: ^0.2.1
   vite-ssg: ^0.20.2
   vite-ssg-sitemap: ^0.2.7
   vitest: ^0.16.0
@@ -103,6 +104,7 @@ devDependencies:
   vite-plugin-pwa: 0.12.1_vite@2.9.13
   vite-plugin-vue-layouts: 0.6.0_evrllnkh5nrlwbwnbxhvh4u3v4
   vite-plugin-vue-markdown: 0.20.0_vite@2.9.13
+  vite-plugin-vue-type-imports: 0.2.1_vue@3.2.37
   vite-ssg: 0.20.2_k7shjfzctjeydlate74macei7a
   vite-ssg-sitemap: 0.2.7
   vitest: 0.16.0
@@ -384,7 +386,7 @@ packages:
     resolution: {integrity: sha512-KyUenhWMC8VrxzkGP0Jizjo4/Zx+1nNZhgocs+gLzyZyB8SHidhoq9KK/8Ato4anhwsivfkBLftky7gvzbZMtQ==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.17.0
+      '@babel/types': 7.18.13
     dev: true
 
   /@babel/helper-function-name/7.17.9:
@@ -406,7 +408,7 @@ packages:
     resolution: {integrity: sha512-thxXgnQ8qQ11W2wVUObIqDL4p148VMxkt5T/qpN5k2fboRyzFGFmKsTGViquyM5QHKUy48OZoca8kw4ajaDPyw==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.17.0
+      '@babel/types': 7.18.13
     dev: true
 
   /@babel/helper-module-imports/7.16.7:
@@ -489,9 +491,19 @@ packages:
       '@babel/types': 7.17.0
     dev: true
 
+  /@babel/helper-string-parser/7.18.10:
+    resolution: {integrity: sha512-XtIfWmeNY3i4t7t4D2t02q50HvqHybPqW2ki1kosnvWCwuCMeo81Jf0gwr85jy/neUdg5XDdeFE/80DXiO+njw==}
+    engines: {node: '>=6.9.0'}
+    dev: true
+
   /@babel/helper-validator-identifier/7.16.7:
     resolution: {integrity: sha512-hsEnFemeiW4D08A5gUAZxLBTXpZ39P+a+DGDsHw1yxqyQ/jzFEnxf5uTEGp+3bzAbNOxU1paTgYS4ECU/IgfDw==}
     engines: {node: '>=6.9.0'}
+
+  /@babel/helper-validator-identifier/7.18.6:
+    resolution: {integrity: sha512-MmetCkz9ej86nJQV+sFCxoGGrUbU3q02kgLciwkrt9QqEB7cP39oKEY0PakknEO0Gu20SskMRi+AYZ3b1TpN9g==}
+    engines: {node: '>=6.9.0'}
+    dev: true
 
   /@babel/helper-validator-option/7.16.7:
     resolution: {integrity: sha512-TRtenOuRUVo9oIQGPC5G9DgK4743cdxvtOw0weQNpZXaS16SCBi5MNjZF8vba3ETURjZpTbVn7Vvcf2eAwFozQ==}
@@ -505,7 +517,7 @@ packages:
       '@babel/helper-function-name': 7.17.9
       '@babel/template': 7.16.7
       '@babel/traverse': 7.17.9
-      '@babel/types': 7.17.0
+      '@babel/types': 7.18.13
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -1369,6 +1381,15 @@ packages:
     dependencies:
       '@babel/helper-validator-identifier': 7.16.7
       to-fast-properties: 2.0.0
+
+  /@babel/types/7.18.13:
+    resolution: {integrity: sha512-ePqfTihzW0W6XAU+aMw2ykilisStJfDnsejDCXRchCcMJ4O0+8DhPXf2YUbZ6wjBlsEmZwLK/sPweWtu8hcJYQ==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      '@babel/helper-string-parser': 7.18.10
+      '@babel/helper-validator-identifier': 7.18.6
+      to-fast-properties: 2.0.0
+    dev: true
 
   /@babylonjs/core/5.14.1:
     resolution: {integrity: sha512-J+17eZ0F8DOLeyBk1JVT9RjKxJLRV/chtvfcya9SyJPweHDZgJ4SDGYldfxAmRIYuooJxwpOr3H4c+FLU29/NQ==}
@@ -5401,6 +5422,11 @@ packages:
     engines: {node: '>=14'}
     dev: true
 
+  /local-pkg/0.4.2:
+    resolution: {integrity: sha512-mlERgSPrbxU3BP4qBqAvvwlgW4MTg78iwJdGGnv7kibKjWcJksrG3t6LB5lXI93wXRDvG4NpUgJFmTG4T6rdrg==}
+    engines: {node: '>=14'}
+    dev: true
+
   /locate-path/2.0.0:
     resolution: {integrity: sha512-NCI2kiDkyR7VeEKm27Kda/iQHyKJe1Bu0FlTbYp3CqJu+9IFe9bLyAjMxf5ZDDbEg+iMPzB5zYyUTSm8wVTKmA==}
     engines: {node: '>=4'}
@@ -7460,6 +7486,18 @@ packages:
       gray-matter: 4.0.3
       markdown-it: 13.0.1
       vite: 2.9.13
+    dev: true
+
+  /vite-plugin-vue-type-imports/0.2.1_vue@3.2.37:
+    resolution: {integrity: sha512-DeZ1u38sFWnrEU7ku6Dt7+CbfOfr/xirYILpDx3oYLpCjc6cTpTnH/FS+62bjXBUucjoMy8LE+fR6uaKYgHYsA==}
+    peerDependencies:
+      '@vue/compiler-sfc': ^3.2.24
+      vue: ^3.2.24
+    dependencies:
+      '@babel/types': 7.18.13
+      fast-glob: 3.2.11
+      local-pkg: 0.4.2
+      vue: 3.2.37
     dev: true
 
   /vite-ssg-sitemap/0.2.7:

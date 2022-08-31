@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { IFinancialStatementProps } from '~/types'
-interface Props extends IFinancialStatementProps {}
-const { title, typeList } = defineProps<Props>()
+const { title, typeList } = defineProps<IFinancialStatementProps>()
 
 const num = $ref(0)
 
