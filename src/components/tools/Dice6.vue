@@ -13,14 +13,17 @@ const diceValue = ref(props.modelValue)
 const colors: string[] = ['red', 'blue', 'green', 'orange', 'amber', 'yellow', 'lime', 'emerald', 'teal', 'cyan', 'sky', 'indigo', 'violet', 'purple', 'pink', 'rose']
 const colorClass = ref('')
 
-const changeDiceColor = () => {
+const changeDiceColor = (targetIndex?: number) => {
   if (!props.useColor)
     return
-  const randomedColor = colors[random(colors.length - 1)]
-  colorClass.value = `bg-${randomedColor}-400 border-${randomedColor}-600`
+  if (!targetIndex)
+    targetIndex = random(colors.length - 1)
+
+  const seletedColor = colors[targetIndex]
+  colorClass.value = `bg-${seletedColor}-400 border-${seletedColor}-600`
 }
 
-changeDiceColor()
+changeDiceColor(1)
 
 let tween: gsap.core.Tween
 const roll = () => {
@@ -31,8 +34,8 @@ const roll = () => {
         duration: 0.5,
         rotation: 180,
         onComplete: () => {
-          changeDiceColor()
           diceValue.value = random(1, 6)
+          changeDiceColor(diceValue.value)
         },
       }, {
         duration: 0.5,

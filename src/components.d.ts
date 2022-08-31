@@ -16,6 +16,7 @@ declare module '@vue/runtime-core' {
     ToolsCalculator: typeof import('./components/tools/Calculator.vue')['default']
     ToolsCountNumber: typeof import('./components/tools/CountNumber.vue')['default']
     ToolsDice6: typeof import('./components/tools/Dice6.vue')['default']
+    ToolsFinancialStatement: typeof import('./components/tools/FinancialStatement/index.vue')['default']
     ToolsReservedDice: typeof import('./components/tools/reserved/Dice.vue')['default']
   }
 }

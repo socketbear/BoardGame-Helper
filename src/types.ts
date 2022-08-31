@@ -9,3 +9,15 @@ export interface avatar {
   unit: string
   trans?: number
 }
+
+export interface FinancialTypeList {
+  id: string
+  name: string
+  inout?: string
+  amount?: number
+  children?: FinancialTypeList[]
+}
+export interface FinancialStatementProps {
+  title: string
+  typeList: FinancialTypeList[]
+}

@@ -50,6 +50,11 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
                   GSAP
                 </a>
               </MenuItem>
+              <MenuItem v-slot="{ active }">
+                <a :class="{ 'bg-blue-500': active }" href="/sandbox/drag">
+                  Drag n Drop
+                </a>
+              </MenuItem>
             </MenuItems>
           </div>
         </Menu>
