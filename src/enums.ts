@@ -11,3 +11,8 @@ export enum IN_OUT {
   IN = 'in',
   OUT = 'out',
 }
+
+export enum FINANCIAL_TYPE {
+  PARENT_UNKNOWN = 'unknown',
+  CHILD_UNKNOWN = 'unknown-child',
+}

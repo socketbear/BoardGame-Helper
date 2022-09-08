@@ -18,6 +18,7 @@ declare module '@vue/runtime-core' {
     ToolsDice6: typeof import('./components/tools/Dice6.vue')['default']
     ToolsFinancialStatement: typeof import('./components/tools/FinancialStatement/index.vue')['default']
     ToolsFinancialStatementCurrency: typeof import('./components/tools/FinancialStatement/Currency.vue')['default']
+    ToolsFinancialStatementRow: typeof import('./components/tools/FinancialStatement/Row.vue')['default']
     ToolsReservedDice: typeof import('./components/tools/reserved/Dice.vue')['default']
   }
 }
