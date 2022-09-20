@@ -35,6 +35,7 @@ export interface IFinancialType {
   color?: string
 }
 export interface IFinancialStatementProps {
+  financialId: string
   title: string
   typeList: IFinancialTypeList[]
 }

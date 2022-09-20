@@ -7,6 +7,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     BoardIndex: typeof import('./components/BoardIndex.md')['default']
     Counter: typeof import('./components/Counter.vue')['default']
+    Ddrag: typeof import('./components/Ddrag.vue')['default']
     DragBox: typeof import('./components/drag/Box.vue')['default']
     Footer: typeof import('./components/Footer.vue')['default']
     Header: typeof import('./components/Header.vue')['default']
@@ -18,6 +19,7 @@ declare module '@vue/runtime-core' {
     ToolsDice6: typeof import('./components/tools/Dice6.vue')['default']
     ToolsFinancialStatement: typeof import('./components/tools/FinancialStatement/index.vue')['default']
     ToolsFinancialStatementCurrency: typeof import('./components/tools/FinancialStatement/Currency.vue')['default']
+    ToolsFinancialStatementMain: typeof import('./components/tools/FinancialStatement/main.vue')['default']
     ToolsFinancialStatementRow: typeof import('./components/tools/FinancialStatement/Row.vue')['default']
     ToolsReservedDice: typeof import('./components/tools/reserved/Dice.vue')['default']
   }

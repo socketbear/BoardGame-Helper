@@ -5,7 +5,6 @@ const unit = useUnitStore()
 const boardData = await useBoardData(BOARD_GAME.RICH)
 if (boardData)
   unit.setUnit(boardData.unit, boardData.unitPosition)
-console.log('boardData :>>>', boardData)
 </script>
 
 <template>
@@ -13,7 +12,7 @@ console.log('boardData :>>>', boardData)
     <p class="text-2xl">
       Drag n Drop (use vue.draggable)!
     </p>
-    <tools-financial-statement v-if="boardData" title="AAAA" :type-list="boardData.typeList" />
+    <tools-financial-statement-main v-if="boardData" title="AAAA" :type-list="boardData.typeList" financial-id="AAAA" />
   </div>
 </template>
 

@@ -35,13 +35,19 @@ const childType = computed(() => {
   return parentType.value.children[0]
 })
 
+const updateData = () => {
+  emit('change', financial)
+}
+
 watchEffect(() => {
   financial.childType = parentType.value.children[0].id
+  updateData()
 })
 watchEffect(() => {
   const { worth, amount } = childType.value
   financial.worth = worth
   financial.amount = amount
+  updateData()
 })
 </script>
 
