@@ -13,8 +13,10 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
           <MenuButton>Games</MenuButton>
           <div class="fixed">
             <MenuItems class="flex flex-col">
-              <MenuItem disabled>
-                <span class="opacity-75">Rich! (coming soon!)</span>
+              <MenuItem v-slot="{ active }">
+                <a :class="{ 'bg-blue-500': active }" href="/game/rich">
+                  Rich!
+                </a>
               </MenuItem>
             </MenuItems>
           </div>

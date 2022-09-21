@@ -1,17 +1,9 @@
 <script setup lang="ts">
-import type { avatar } from '~/types'
+import type { IPopupState, avatar } from '~/types'
 import Calculator from '~/components/tools/Calculator.vue'
 import { useSound } from '@vueuse/sound'
 import cashResiterSfx from '/assets/sounds/cash-register.mp3'
 const calc = ref<InstanceType<typeof Calculator>>()
-
-interface popupState {
-  show: boolean
-  state: string
-  from?: avatar
-  to?: avatar
-  title: string
-}
 
 const boxData: avatar[] = reactive([
   { id: 'A', name: '아빠', budget: 0, unit: '₩' },
@@ -19,7 +11,7 @@ const boxData: avatar[] = reactive([
   { id: 'C', name: '기부금', budget: 0, unit: '₩' },
 ])
 
-const calcState: popupState = reactive({
+const calcState: IPopupState = reactive({
   show: false,
   state: '', // add, transfer
   title: '',

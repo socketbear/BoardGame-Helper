@@ -54,6 +54,9 @@ const updateData = (financial: IFinancial) => {
 }
 
 const deleteData = (financial: IFinancial) => {
+  // worth 값을 financialId와 함께 정산 이벤트로 전달
+  emit('adjust', { financialId, amount: financial.worth })
+
   // financialList Array 안에 id로 찾아 해당 값 삭제
   const target = financialList.find(f => f.id === financial.id)
   if (target) {
@@ -64,7 +67,7 @@ const deleteData = (financial: IFinancial) => {
 
 const calTotalAmount = () => {
   // 정산 버튼을 누르면 adjust 이벤트로 totalAmount를 emit
-  emit('adjust', { financialId, totalAmount })
+  emit('adjust', { financialId, amount: totalAmount })
 }
 </script>
 

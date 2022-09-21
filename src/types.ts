@@ -10,6 +10,7 @@ export interface avatar {
   budget: number
   unit: string
   trans?: number
+  useReport: boolean
 }
 export type Inout = IN_OUT.IN | IN_OUT.OUT
 export interface IFinancial {
@@ -29,7 +30,7 @@ export interface IFinancialTypeList {
 export interface IFinancialType {
   id: string
   name: string
-  inout: string
+  inout: Inout
   amount: number
   worth: number
   color?: string
@@ -40,8 +41,17 @@ export interface IFinancialStatementProps {
   typeList: IFinancialTypeList[]
 }
 
+export interface IPopupState {
+  show: boolean
+  state: string
+  from?: avatar
+  to?: avatar
+  title: string
+}
+
 export interface IBoardData {
   unit: string
   unitPosition: UNIT_POSITION
   typeList: IFinancialTypeList[]
+  preDefinedPlayers: string[]
 }

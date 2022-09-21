@@ -4,6 +4,7 @@ import { UNIT_POSITION } from '~/enums'
 export const getData = (): IBoardData => ({
   unit: '만원',
   unitPosition: UNIT_POSITION.BACK,
+  preDefinedPlayers: ['도바킨', '엄마', '아빠', '삼촌'],
   typeList: [
     {
       id: 'unknown',
@@ -18,6 +19,7 @@ export const getData = (): IBoardData => ({
         },
       ],
     },
+
     {
       id: 'real',
       name: '부동산',
@@ -99,6 +101,55 @@ export const getData = (): IBoardData => ({
           inout: 'in',
           amount: 1000,
           worth: 10000,
+        },
+      ],
+    },
+    {
+      id: 'out',
+      name: '지출',
+      color: 'red-400',
+      children: [
+        {
+          id: 'loan100',
+          name: '이자 100',
+          inout: 'out',
+          amount: 100,
+          worth: 0,
+        },
+        {
+          id: 'loan200',
+          name: '이자 200',
+          inout: 'out',
+          amount: 200,
+          worth: 0,
+        },
+        {
+          id: 'insur1',
+          name: '자동차보험',
+          inout: 'out',
+          amount: 10,
+          worth: 0,
+        },
+        {
+          id: 'insur2',
+          name: '생명보험',
+          inout: 'out',
+          amount: 10,
+          worth: 0,
+        },
+      ],
+    },
+    {
+      id: 'income',
+      name: '수입',
+      color: 'green-400',
+      children: [
+        {
+          id: 'salary',
+          name: '월급',
+          inout: 'in',
+          amount: 200,
+          worth: 0,
         },
       ],
     },

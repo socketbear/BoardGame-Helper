@@ -16,3 +16,9 @@ export enum FINANCIAL_TYPE {
   PARENT_UNKNOWN = 'unknown',
   CHILD_UNKNOWN = 'unknown-child',
 }
+
+export const CUnits: string[] = ['₩', '$', '£', '¥', 'G', '']
+
+export enum STAGE {
+  PREPARE, START, END,
+}

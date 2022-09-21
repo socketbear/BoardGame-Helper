@@ -15,13 +15,15 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     ToolsCalculator: typeof import('./components/tools/Calculator.vue')['default']
+    ToolsColorSelector: typeof import('./components/tools/ColorSelector.vue')['default']
     ToolsCountNumber: typeof import('./components/tools/CountNumber.vue')['default']
     ToolsDice6: typeof import('./components/tools/Dice6.vue')['default']
-    ToolsFinancialStatement: typeof import('./components/tools/FinancialStatement/index.vue')['default']
     ToolsFinancialStatementCurrency: typeof import('./components/tools/FinancialStatement/Currency.vue')['default']
     ToolsFinancialStatementMain: typeof import('./components/tools/FinancialStatement/main.vue')['default']
     ToolsFinancialStatementRow: typeof import('./components/tools/FinancialStatement/Row.vue')['default']
+    ToolsNumberSetter: typeof import('./components/tools/NumberSetter.vue')['default']
     ToolsReservedDice: typeof import('./components/tools/reserved/Dice.vue')['default']
+    ToolsUnitSelector: typeof import('./components/tools/UnitSelector.vue')['default']
   }
 }
 

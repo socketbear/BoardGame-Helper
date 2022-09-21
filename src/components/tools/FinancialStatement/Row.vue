@@ -39,14 +39,17 @@ const updateData = () => {
   emit('change', financial)
 }
 
-watchEffect(() => {
+// parentType이 변경되면 childType을 초기화
+watch(parentType, () => {
   financial.childType = parentType.value.children[0].id
   updateData()
 })
+
 watchEffect(() => {
-  const { worth, amount } = childType.value
+  const { worth, amount, inout } = childType.value
   financial.worth = worth
   financial.amount = amount
+  financial.inout = inout
   updateData()
 })
 </script>

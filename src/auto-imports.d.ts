@@ -33,6 +33,8 @@ declare global {
   const eagerComputed: typeof import('@vueuse/core')['eagerComputed']
   const effectScope: typeof import('vue')['effectScope']
   const extendRef: typeof import('@vueuse/core')['extendRef']
+  const getColorAdjusts: typeof import('./composables/utils')['getColorAdjusts']
+  const getColors: typeof import('./composables/utils')['getColors']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
   const getUniqueId: typeof import('./composables/utils')['getUniqueId']
@@ -292,6 +294,8 @@ declare module '@vue/runtime-core' {
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
+    readonly getColorAdjusts: UnwrapRef<typeof import('./composables/utils')['getColorAdjusts']>
+    readonly getColors: UnwrapRef<typeof import('./composables/utils')['getColors']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly getUniqueId: UnwrapRef<typeof import('./composables/utils')['getUniqueId']>
