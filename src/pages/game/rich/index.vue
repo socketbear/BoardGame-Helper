@@ -40,7 +40,7 @@ const players = ref<avatar[]>([])
 const bank = ref<avatar>({
   id: 'bank',
   name: '부자은행',
-  color: '',
+  color: 'bg-gray-500',
   budget: 0,
   unit: '',
   useReport: false,
@@ -48,11 +48,11 @@ const bank = ref<avatar>({
 
 const addPlayer = () => {
   const revBudget = players.value[0] ? players.value[0].budget : 0
-  console.log({ revBudget })
+
   players.value.push({
     id: `p${getUniqueId()}`,
     name: `Player${players.value.length + 1}`,
-    color: '',
+    color: 'bg-blue-400',
     budget: revBudget,
     unit: '',
     useReport: true,
@@ -143,7 +143,7 @@ const adjustAmount = ({ financialId, amount }: {
       <h2 class="text-xl text-left">
         은행
       </h2>
-      <tools-color-selector :is-mono="true" @select="selectColorForBank" />
+      <tools-color-selector :is-mono="true" :color="bank.color" @select="selectColorForBank" />
       <NumberSetter @change="(amount: number) => bank.budget = amount" />
       <div class="w-full my-2 border-b-2" />
       <h2 class="text-xl text-left">
@@ -170,7 +170,7 @@ const adjustAmount = ({ financialId, amount }: {
             삭제
           </button>
         </div>
-        <tools-color-selector @select="(color:string) => act.color = color" />
+        <tools-color-selector :color="act.color" @select="(color:string) => act.color = color" />
         <NumberSetter :budget="act.budget" @change="(amount: number) => act.budget = amount" />
         <div class="w-full my-2 border-b-2" />
       </div>
@@ -192,6 +192,7 @@ const adjustAmount = ({ financialId, amount }: {
           <div class="flex justify-end w-full pr-2 pt-8">
             <span class="mr-1">{{ `${selectedUnit}` }}</span>
             <tools-count-number v-model="b.budget" />
+            <span v-if="boardData?.unit" class="ml-1">{{ `${boardData.unit}` }}</span>
           </div>
         </drag-box>
       </div>

@@ -1,10 +1,15 @@
 <script setup lang="ts">
-const { isMono } = defineProps<{
+const { isMono, color } = defineProps<{
   isMono?: boolean
+  color?: string
 }>()
 const emit = defineEmits(['select'])
 const colorList = ref<string[]>([])
 const selectedColor = ref<string>('')
+
+// color의 값이 있을 경우 selectedColor에 할당
+if (color)
+  selectedColor.value = color
 
 if (isMono)
   colorList.value = getColorAdjusts().map(adj => `bg-gray-${adj}`)
