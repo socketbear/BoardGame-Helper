@@ -19,6 +19,12 @@ useHead({
     },
   ],
 })
+
+onMounted(() => {
+  if (isDark.value)
+  // 기존 dark 모드 사용하지 못하게 수정
+    toggleDark()
+})
 </script>
 
 <template>
