@@ -6,16 +6,24 @@ import '@vue/runtime-core'
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     BoardIndex: typeof import('./components/BoardIndex.md')['default']
-    Box: typeof import('./components/drag/Box.vue')['default']
-    Calculator: typeof import('./components/tools/Calculator.vue')['default']
     Counter: typeof import('./components/Counter.vue')['default']
-    CountNumber: typeof import('./components/tools/CountNumber.vue')['default']
-    Dice: typeof import('./components/tools/Dice.vue')['default']
+    Ddrag: typeof import('./components/Ddrag.vue')['default']
+    DragBox: typeof import('./components/drag/Box.vue')['default']
     Footer: typeof import('./components/Footer.vue')['default']
     Header: typeof import('./components/Header.vue')['default']
     README: typeof import('./components/README.md')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    ToolsCalculator: typeof import('./components/tools/Calculator.vue')['default']
+    ToolsColorSelector: typeof import('./components/tools/ColorSelector.vue')['default']
+    ToolsCountNumber: typeof import('./components/tools/CountNumber.vue')['default']
+    ToolsDice6: typeof import('./components/tools/Dice6.vue')['default']
+    ToolsFinancialStatementCurrency: typeof import('./components/tools/FinancialStatement/Currency.vue')['default']
+    ToolsFinancialStatementMain: typeof import('./components/tools/FinancialStatement/main.vue')['default']
+    ToolsFinancialStatementRow: typeof import('./components/tools/FinancialStatement/Row.vue')['default']
+    ToolsNumberSetter: typeof import('./components/tools/NumberSetter.vue')['default']
+    ToolsReservedDice: typeof import('./components/tools/reserved/Dice.vue')['default']
+    ToolsUnitSelector: typeof import('./components/tools/UnitSelector.vue')['default']
   }
 }
 

@@ -13,6 +13,8 @@ import Inspect from 'vite-plugin-inspect'
 import Prism from 'markdown-it-prism'
 import LinkAttributes from 'markdown-it-link-attributes'
 import Unocss from 'unocss/vite'
+// append plugin
+import VueTypeImports from 'vite-plugin-vue-type-imports'
 
 const markdownWrapperClasses = 'prose prose-sm m-auto text-left'
 
@@ -28,6 +30,7 @@ export default defineConfig({
       include: [/\.vue$/, /\.md$/],
       reactivityTransform: true,
     }),
+    VueTypeImports(),
 
     // https://github.com/hannoeru/vite-plugin-pages
     Pages({
@@ -62,6 +65,7 @@ export default defineConfig({
       // allow auto import and register components used in markdown
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
       dts: 'src/components.d.ts',
+      directoryAsNamespace: true,
     }),
 
     // https://github.com/antfu/unocss

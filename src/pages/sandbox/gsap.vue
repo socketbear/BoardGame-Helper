@@ -23,7 +23,7 @@ onMounted(() => {
     <div ref="counter" class="animate-num">
       5000
     </div>
-    <CountNumber v-model="counter2" />
+    <tools-count-number v-model="counter2" />
   </div>
 </template>
 

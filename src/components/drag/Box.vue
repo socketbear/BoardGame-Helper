@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import type { PropType } from 'vue'
-// https://interactjs.io/docs/
 import interact from 'interactjs'
-interface BoxData {
-  id: string
-}
+import type { avatar } from '~/types'
+// https://interactjs.io/docs/
 
 const props = defineProps({
-  boxData: { type: Object as PropType<BoxData>, required: true },
+  boxData: { type: Object as PropType<avatar>, required: true },
 })
 
 const emit = defineEmits<{
@@ -15,6 +13,19 @@ const emit = defineEmits<{
 }>()
 
 const position = { x: 0, y: 0 }
+
+const boxStyle = computed(() => {
+  // props.boxData.color 문자열 내 gray가 있으면 true
+  const isGray = props.boxData.color?.includes('gray')
+  // borderColor 상수 값에 props.boxData.color 값의 앞의 bg를 제거하고, border로 변경하고 뒤 숫자를 제거하고 600으로 변경
+  const borderColor = props.boxData.color?.replace('bg-', 'border-').replace(/-[0-9]{3}/, '-600')
+
+  if (isGray)
+    return `${borderColor} ${props.boxData.color} text-white`
+
+  else
+    return `${props.boxData.color} ${borderColor}`
+})
 
 onMounted(() => {
   // drag 가능하게 구성
@@ -55,8 +66,8 @@ onBeforeUnmount(() => {
 
 <template>
   <div
-    class="w-32 h-32 bg-blue-400 rounded-lg border-4 border-blue-600 touch-none select-none"
-    :class="`${props.boxData.id}-draggable`" :data-id="props.boxData.id"
+    class="w-32 h-32 rounded-lg border-4 touch-none select-none"
+    :class="`${props.boxData.id}-draggable ${boxStyle}`" :data-id="props.boxData.id"
   >
     <slot />
   </div>

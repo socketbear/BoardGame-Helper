@@ -13,8 +13,10 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
           <MenuButton>Games</MenuButton>
           <div class="fixed">
             <MenuItems class="flex flex-col">
-              <MenuItem disabled>
-                <span class="opacity-75">Rich! (coming soon!)</span>
+              <MenuItem v-slot="{ active }">
+                <a :class="{ 'bg-blue-500': active }" href="/game/rich">
+                  Rich!
+                </a>
               </MenuItem>
             </MenuItems>
           </div>
@@ -26,7 +28,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
           <div class="fixed">
             <MenuItems class="flex flex-col">
               <MenuItem v-slot="{ active }">
-                <a :class="{ 'bg-blue-500': active }" href="/sandbox/dice">
+                <a :class="{ 'bg-blue-500': active }" href="/sandbox/dice-pad">
                   Dice
                 </a>
               </MenuItem>
@@ -48,6 +50,16 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
               <MenuItem v-slot="{ active }">
                 <a :class="{ 'bg-blue-500': active }" href="/sandbox/gsap">
                   GSAP
+                </a>
+              </MenuItem>
+              <MenuItem v-slot="{ active }">
+                <a :class="{ 'bg-blue-500': active }" href="/sandbox/vue-drag">
+                  Drag n Drop
+                </a>
+              </MenuItem>
+              <MenuItem v-slot="{ active }">
+                <a :class="{ 'bg-blue-500': active }" href="/sandbox/dragger">
+                  Draggable
                 </a>
               </MenuItem>
             </MenuItems>

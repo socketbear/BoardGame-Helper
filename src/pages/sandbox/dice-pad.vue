@@ -1,29 +1,29 @@
 <script setup lang="ts">
-// import DiceBox from '@3d-dice/dice-box'
-// import { useSound } from '@vueuse/sound'
-// import diceSfx from '/assets/sounds/dice.mp3'
+import Dice6 from '~/components/tools/Dice6.vue'
+const dices = ref([ref(1), ref(1)])
 
-// const { play: playDiceSfx } = useSound(diceSfx)
+let diceRefs: InstanceType<typeof Dice6>[] = []
+const setDiceRef = (el: InstanceType<typeof Dice6> | undefined) => {
+  if (el)
+    diceRefs.push(el)
+}
+onBeforeUpdate(() => {
+  diceRefs = []
+})
 
-// let diceBox
-// onMounted(() => {
-//   diceBox = new DiceBox('#dice-box', {
-//     assetPath: '/assets/dice-box/', // required
-//   })
-//   diceBox.init().then(() => {
-//     diceBox.onRollComplete = rollResult => console.log('roll results', rollResult)
-//     playDiceSfx()
-//     diceBox.roll('2d6')
-//   })
-// })
-// const reRoll = () => {
-//   playDiceSfx()
-//   diceBox.roll('2d6')
-// }
+const roll = () => {
+  for (const dice of diceRefs) {
+    if (dice)
+      dice.roll()
+  }
+}
 </script>
 
 <template>
-  dice-page
+  <Dice6 v-for="(d, idx) in dices" :key="`tool-dice-${idx}`" :ref="setDiceRef" v-model="d.value" />
+  <button class="btn" @click="roll">
+    GO
+  </button>
 </template>
 
 <style scoped>
