@@ -48,6 +48,7 @@ const bank = ref<avatar>({
 
 const addPlayer = () => {
   const revBudget = players.value[0] ? players.value[0].budget : 0
+  console.log({ revBudget })
   players.value.push({
     id: `p${getUniqueId()}`,
     name: `Player${players.value.length + 1}`,
@@ -170,7 +171,7 @@ const adjustAmount = ({ financialId, amount }: {
           </button>
         </div>
         <tools-color-selector @select="(color:string) => act.color = color" />
-        <NumberSetter @change="(amount: number) => act.budget = amount" />
+        <NumberSetter :budget="act.budget" @change="(amount: number) => act.budget = amount" />
         <div class="w-full my-2 border-b-2" />
       </div>
       <div class="flex justify-center">
