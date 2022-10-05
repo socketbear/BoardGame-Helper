@@ -14,6 +14,7 @@ declare module '@vue/runtime-core' {
     README: typeof import('./components/README.md')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SandboxSdbImageOverlay: typeof import('./components/sandbox/SdbImageOverlay.md')['default']
     ToolsCalculator: typeof import('./components/tools/Calculator.vue')['default']
     ToolsColorSelector: typeof import('./components/tools/ColorSelector.vue')['default']
     ToolsCountNumber: typeof import('./components/tools/CountNumber.vue')['default']

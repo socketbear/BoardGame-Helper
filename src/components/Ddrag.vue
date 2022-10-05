@@ -26,7 +26,7 @@ const addData = () => {
       <template #item="{ element }">
         <div class="flex justify-between items-center border border-gray-300 p-2">
           <div class="flex items-center">
-            <div class="i-carbon-drag w-4" />
+            <div class="i-carbon-draggable w-4" />
             <div class="ml-2">
               {{ element.text }}
             </div>
@@ -36,7 +36,7 @@ const addData = () => {
               <div class="i-carbon-edit w-4" />
             </button>
             <button class="flex items-center tiny-btn">
-              <div class="i-carbon-delete w-4" />
+              <div class="i-carbon-trash-can w-4" />
             </button>
           </div>
         </div>
