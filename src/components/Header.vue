@@ -62,6 +62,11 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
                   Draggable
                 </a>
               </MenuItem>
+              <MenuItem v-slot="{ active }">
+                <a :class="{ 'bg-blue-500': active }" href="/sandbox/image-overlay">
+                  Image Overlay
+                </a>
+              </MenuItem>
             </MenuItems>
           </div>
         </Menu>
