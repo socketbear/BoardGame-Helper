@@ -5,7 +5,7 @@
 useHead({
   title: 'Board Helper',
   meta: [
-    { name: 'description', content: 'Opinionated Vite Starter Template' },
+    { name: 'description', content: '보드게임을 즐겁게!' },
     {
       name: 'theme-color',
       content: computed(() => isDark.value ? '#00aba9' : '#ffffff'),
