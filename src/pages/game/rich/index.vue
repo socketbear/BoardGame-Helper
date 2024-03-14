@@ -129,6 +129,19 @@ const adjustAmount = ({ financialId, amount }: {
   if (avatar)
     avatar.budget += amount
 }
+
+const preventClose = (e: BeforeUnloadEvent) => {
+  e.preventDefault();
+  e.returnValue = "";
+};
+
+onMounted(() => {
+  window.addEventListener("beforeunload", preventClose);
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener("beforeunload", preventClose);
+})
 </script>
 
 <template>
@@ -158,11 +171,14 @@ const adjustAmount = ({ financialId, amount }: {
             </h2>
             <div class="relative">
               <input v-model="act.name" type="text" class="border p-2 mr-2" placeholder="이름을 입력해 주세요.">
-              <button class="absolute right-4 top-3 hover:text-red-600 active:hover:text-red-400" @click="act.name = ''">
+              <button class="absolute right-4 top-3 hover:text-red-600 active:hover:text-red-400"
+                @click="act.name = ''">
                 <div i-carbon-close-filled />
               </button>
             </div>
-            <div v-for="p in preDefinedPlayers" :key="`pre-defined-namem-${act.id}-${p}`" class="mx-2 h-8 p-2 rounded-xl name-tag cursor-pointer bg-gray-200 flex items-center text-center" @click="act.name = p">
+            <div v-for="p in preDefinedPlayers" :key="`pre-defined-namem-${act.id}-${p}`"
+              class="mx-2 h-8 p-2 rounded-xl name-tag cursor-pointer bg-gray-200 flex items-center text-center"
+              @click="act.name = p">
               {{ p }}
             </div>
           </div>
@@ -170,22 +186,25 @@ const adjustAmount = ({ financialId, amount }: {
             삭제
           </button>
         </div>
-        <tools-color-selector :color="act.color" @select="(color:string) => act.color = color" />
+        <tools-color-selector :color="act.color" @select="(color: string) => act.color = color" />
         <NumberSetter :budget="act.budget" @change="(amount: number) => act.budget = amount" />
         <div class="w-full my-2 border-b-2" />
       </div>
       <div class="flex justify-center">
         <button class="tiny-btn flex items-center mr-2" @click="addPlayer">
-          추가<div class="i-carbon-add w-4" />
+          추가
+          <div class="i-carbon-add w-4" />
         </button>
         <button class="tiny-btn flex items-center" @click="goStartState">
-          완료<div class="i-carbon-task-complete w-4" />
+          완료
+          <div class="i-carbon-task-complete w-4" />
         </button>
       </div>
     </template>
     <template v-if="stage === STAGE.START">
       <div class="w-full flex flex-wrap">
-        <drag-box v-for="b in actors" :key="`box-${b.id}`" :box-data="b" class="mx-2" @dropped="dropped" @click="addMoney(b)">
+        <drag-box v-for="b in actors" :key="`box-${b.id}`" :box-data="b" class="mx-2" @dropped="dropped"
+          @click="addMoney(b)">
           <div class="text-xl font-bold">
             {{ b.name }}
           </div>
@@ -201,7 +220,8 @@ const adjustAmount = ({ financialId, amount }: {
           <h2 class="my-1 text-xl font-bold flex-1">
             {{ calcState.title }}
           </h2>
-          <div class="m-1 border-1 rounded cursor-pointer hover:bg-slate-400 active:bg-slate-600 active:text-white" @click="closeCalcPop">
+          <div class="m-1 border-1 rounded cursor-pointer hover:bg-slate-400 active:bg-slate-600 active:text-white"
+            @click="closeCalcPop">
             <p class="mx-2">
               X
             </p>
@@ -216,7 +236,9 @@ const adjustAmount = ({ financialId, amount }: {
       </div>
       <div class="w-full my-2 border-b-2" />
       <div v-if="boardData" class="flex flex-wrap">
-        <tools-financial-statement-main v-for="act in reportActors" :key="`financial-report-${act.id}`" :title="act.name" :type-list="boardData.typeList" :financial-id="act.id" class="mx-2" @adjust="adjustAmount" />
+        <tools-financial-statement-main v-for="act in reportActors" :key="`financial-report-${act.id}`"
+          :title="act.name" :type-list="boardData.typeList" :financial-id="act.id" class="mx-2"
+          @adjust="adjustAmount" />
       </div>
     </template>
   </div>
