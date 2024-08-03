@@ -143,9 +143,13 @@ onMounted(() => {
   --el-button-disabled-bg-color: #f0f0f0;
 }
 
-.deck {
-  .invert-bg {
-    background-color: gray;
-  }
+.deck .invert-bg {
+  background-color: gray;
 }
+
 </style>
+
+<route lang="yaml">
+  meta:
+    layout: board
+    </route>

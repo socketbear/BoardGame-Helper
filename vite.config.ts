@@ -25,7 +25,9 @@ export default defineConfig({
       '~/': `${path.resolve(__dirname, 'src')}/`,
     },
   },
-
+  ssr: {
+    noExternal: ['element-plus']
+  },
   plugins: [
     Vue({
       include: [/\.vue$/, /\.md$/],
