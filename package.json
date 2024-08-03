@@ -21,6 +21,7 @@
     "@vueuse/head": "^0.7.6",
     "@vueuse/motion": "2.0.0-beta.12",
     "@vueuse/sound": "^1.1.7",
+    "element-plus": "^2.7.8",
     "global": "^4.4.0",
     "gsap": "^3.11.0",
     "interactjs": "^1.10.17",

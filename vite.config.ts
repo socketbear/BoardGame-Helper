@@ -13,6 +13,7 @@ import Inspect from 'vite-plugin-inspect'
 import Prism from 'markdown-it-prism'
 import LinkAttributes from 'markdown-it-link-attributes'
 import Unocss from 'unocss/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 // append plugin
 import VueTypeImports from 'vite-plugin-vue-type-imports'
 
@@ -56,6 +57,7 @@ export default defineConfig({
         'src/store',
       ],
       vueTemplate: true,
+      resolvers: [ElementPlusResolver()],
     }),
 
     // https://github.com/antfu/unplugin-vue-components
@@ -66,6 +68,7 @@ export default defineConfig({
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
       dts: 'src/components.d.ts',
       directoryAsNamespace: true,
+      resolvers: [ElementPlusResolver()],
     }),
 
     // https://github.com/antfu/unocss
