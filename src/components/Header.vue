@@ -18,6 +18,11 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
                   Rich!
                 </a>
               </MenuItem>
+              <MenuItem v-slot="{ active }">
+                <a :class="{ 'bg-blue-500': active }" href="/game/hanabi">
+                  하나비 헬퍼
+                </a>
+              </MenuItem>
             </MenuItems>
           </div>
         </Menu>

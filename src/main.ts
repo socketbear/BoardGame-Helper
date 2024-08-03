@@ -3,6 +3,7 @@ import { setupLayouts } from 'virtual:generated-layouts'
 import App from './App.vue'
 import generatedRoutes from '~pages'
 
+import 'element-plus/dist/index.css'
 import '@unocss/reset/tailwind.css'
 import './styles/main.css'
 import 'uno.css'
