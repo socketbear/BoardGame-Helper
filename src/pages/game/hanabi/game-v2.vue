@@ -74,3 +74,8 @@ watch(cardCount, () => {
   gap: 20px;
 }
 </style>
+
+<route lang="yaml">
+  meta:
+    layout: board
+    </route>
