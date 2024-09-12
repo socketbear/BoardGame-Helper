@@ -12,15 +12,20 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
         <Menu>
           <MenuButton>Games</MenuButton>
           <div class="fixed">
-            <MenuItems class="flex flex-col">
+            <MenuItems class="flex flex-col bg-white border border-gray-200 rounded-md shadow-md">
               <MenuItem v-slot="{ active }">
-                <a :class="{ 'bg-blue-500': active }" href="/game/rich">
+                <a :class="{ 'bg-blue-500': active }" class="px-4 py-2 hover:bg-gray-100" href="/game/rich">
                   Rich!
                 </a>
               </MenuItem>
               <MenuItem v-slot="{ active }">
-                <a :class="{ 'bg-blue-500': active }" href="/game/hanabi">
+                <a :class="{ 'bg-blue-500': active }" class="px-4 py-2 hover:bg-gray-100" href="/game/hanabi">
                   하나비 헬퍼
+                </a>
+              </MenuItem>
+              <MenuItem v-slot="{ active }">
+                <a :class="{ 'bg-blue-500': active }" class="px-4 py-2 hover:bg-gray-100" href="/game/hanabi/game-v2">
+                  하나비 헬퍼 V2
                 </a>
               </MenuItem>
             </MenuItems>
@@ -31,44 +36,44 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
         <Menu>
           <MenuButton>Sandbox</MenuButton>
           <div class="fixed">
-            <MenuItems class="flex flex-col">
+            <MenuItems class="flex flex-col bg-white border border-gray-200 rounded-md shadow-md">
               <MenuItem v-slot="{ active }">
-                <a :class="{ 'bg-blue-500': active }" href="/sandbox/dice-pad">
+                <a :class="{ 'bg-blue-500': active }" class="px-4 py-2 hover:bg-gray-100" href="/sandbox/dice-pad">
                   Dice
                 </a>
               </MenuItem>
               <MenuItem v-slot="{ active }">
-                <a :class="{ 'bg-blue-500': active }" href="/sandbox/gesture">
+                <a :class="{ 'bg-blue-500': active }" class="px-4 py-2 hover:bg-gray-100" href="/sandbox/gesture">
                   Gesture
                 </a>
               </MenuItem>
               <MenuItem v-slot="{ active }">
-                <a :class="{ 'bg-blue-500': active }" href="/sandbox/el-drag-drop">
+                <a :class="{ 'bg-blue-500': active }" class="px-4 py-2 hover:bg-gray-100" href="/sandbox/el-drag-drop">
                   Element Drag n Drop
                 </a>
               </MenuItem>
               <MenuItem v-slot="{ active }">
-                <a :class="{ 'bg-blue-500': active }" href="/sandbox/calc">
+                <a :class="{ 'bg-blue-500': active }" class="px-4 py-2 hover:bg-gray-100" href="/sandbox/calc">
                   Calculator
                 </a>
               </MenuItem>
               <MenuItem v-slot="{ active }">
-                <a :class="{ 'bg-blue-500': active }" href="/sandbox/gsap">
+                <a :class="{ 'bg-blue-500': active }" class="px-4 py-2 hover:bg-gray-100" href="/sandbox/gsap">
                   GSAP
                 </a>
               </MenuItem>
               <MenuItem v-slot="{ active }">
-                <a :class="{ 'bg-blue-500': active }" href="/sandbox/vue-drag">
+                <a :class="{ 'bg-blue-500': active }" class="px-4 py-2 hover:bg-gray-100" href="/sandbox/vue-drag">
                   Drag n Drop
                 </a>
               </MenuItem>
               <MenuItem v-slot="{ active }">
-                <a :class="{ 'bg-blue-500': active }" href="/sandbox/dragger">
+                <a :class="{ 'bg-blue-500': active }" class="px-4 py-2 hover:bg-gray-100" href="/sandbox/dragger">
                   Draggable
                 </a>
               </MenuItem>
               <MenuItem v-slot="{ active }">
-                <a :class="{ 'bg-blue-500': active }" href="/sandbox/image-overlay">
+                <a :class="{ 'bg-blue-500': active }" class="px-4 py-2 hover:bg-gray-100" href="/sandbox/image-overlay">
                   Image Overlay
                 </a>
               </MenuItem>

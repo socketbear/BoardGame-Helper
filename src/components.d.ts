@@ -10,6 +10,8 @@ declare module '@vue/runtime-core' {
     Ddrag: typeof import('./components/Ddrag.vue')['default']
     DragBox: typeof import('./components/drag/Box.vue')['default']
     Footer: typeof import('./components/Footer.vue')['default']
+    HanabiCard: typeof import('./components/HanabiCard.vue')['default']
+    HanabiCardPopover: typeof import('./components/HanabiCardPopover.vue')['default']
     Header: typeof import('./components/Header.vue')['default']
     README: typeof import('./components/README.md')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
