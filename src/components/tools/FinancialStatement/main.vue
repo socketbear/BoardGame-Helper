@@ -5,14 +5,11 @@ const { title, typeList, financialId } = defineProps<IFinancialStatementProps>()
 
 // 정산 이벤트 emit 추가
 const emit = defineEmits(['adjust'])
-// 참고: https://vuejs.org/guide/extras/reactivity-transform.html#refs-vs-reactive-variables
-// $를 사용하게 되면 .value를 사용하지 않아도 되며, 전반적으로 편의성이 향상된다. 비단 ref를 제외하고 .value가 들어가는 항목에 범용적으로 활용 가능하다.
-// const num = $ref(0)
-const financialList: IFinancial[] = $ref([])
+const financialList = ref<IFinancial[]>([])
 
 // financialList 내 amount를 inout이 in이면 더하고, out이면 빼서 computed로 구현
-const totalAmount = $computed(() => {
-  return financialList.reduce((acc, cur) => {
+const totalAmount = computed(() => {
+  return financialList.value.reduce((acc, cur) => {
     if (cur.inout === IN_OUT.IN)
       return acc + cur.amount
     return acc - cur.amount
@@ -20,7 +17,7 @@ const totalAmount = $computed(() => {
 })
 
 const addFinancial = () => {
-  financialList.push({
+  financialList.value.push({
     amount: 0,
     id: getUniqueId(),
     worth: 0,
@@ -32,7 +29,7 @@ const addFinancial = () => {
 
 const alignFinancialRows = () => {
   // financialList Array 안의 값에서 inout 값을 기준으로 정렬
-  financialList.sort((a, b) => {
+  financialList.value.sort((a, b) => {
     if (a.inout === IN_OUT.IN && b.inout === IN_OUT.OUT)
       return -1
     if (a.inout === IN_OUT.OUT && b.inout === IN_OUT.IN)
@@ -43,7 +40,7 @@ const alignFinancialRows = () => {
 
 const updateData = (financial: IFinancial) => {
   // financialList Array 안에 id로 찾아 해당 값 변경
-  const target = financialList.find(f => f.id === financial.id)
+  const target = financialList.value.find(f => f.id === financial.id)
   if (target) {
     target.amount = financial.amount
     target.childType = financial.childType
@@ -58,16 +55,16 @@ const deleteData = (financial: IFinancial) => {
   emit('adjust', { financialId, amount: financial.worth })
 
   // financialList Array 안에 id로 찾아 해당 값 삭제
-  const target = financialList.find(f => f.id === financial.id)
+  const target = financialList.value.find(f => f.id === financial.id)
   if (target) {
-    const index = financialList.indexOf(target)
-    financialList.splice(index, 1)
+    const index = financialList.value.indexOf(target)
+    financialList.value.splice(index, 1)
   }
 }
 
 const calTotalAmount = () => {
   // 정산 버튼을 누르면 adjust 이벤트로 totalAmount를 emit
-  emit('adjust', { financialId, amount: totalAmount })
+  emit('adjust', { financialId, amount: totalAmount.value })
 }
 </script>
 

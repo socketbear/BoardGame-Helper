@@ -28,6 +28,11 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
                   하나비 헬퍼 V2
                 </a>
               </MenuItem>
+              <MenuItem v-slot="{ active }">
+                <a :class="{ 'bg-blue-500': active }" class="px-4 py-2 hover:bg-gray-100" href="/game/fantasy">
+                  판타지 왕국
+                </a>
+              </MenuItem>
             </MenuItems>
           </div>
         </Menu>

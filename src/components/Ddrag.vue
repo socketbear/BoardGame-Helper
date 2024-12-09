@@ -5,10 +5,10 @@ interface ITest {
   id: string
   text: string
 }
-const arrayData: ITest[] = $ref([])
+const arrayData = ref<ITest[]>([])
 const count = ref(0)
 const addData = () => {
-  arrayData.push({
+  arrayData.value.push({
     id: getUniqueId(),
     text: `test${count.value++}`,
   })
