@@ -26,7 +26,7 @@ export default defineConfig({
     },
   },
   ssr: {
-    noExternal: ['element-plus']
+    noExternal: ['element-plus'],
   },
   plugins: [
     Vue({
@@ -49,7 +49,6 @@ export default defineConfig({
         'vue',
         'vue-router',
         'vue-i18n',
-        'vue/macros',
         '@vueuse/head',
         '@vueuse/core',
       ],

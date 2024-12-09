@@ -90,13 +90,15 @@ const calTotalAmount = () => {
     </div>
     <table class="w-full table-auto border border-collapse">
       <thead>
-        <th />
-        <th>수입/지출</th>
-        <th>분류</th>
-        <th>항목</th>
-        <th>금액</th>
-        <th>투자금</th>
-        <th />
+        <tr>
+          <th />
+          <th>수입/지출</th>
+          <th>분류</th>
+          <th>항목</th>
+          <th>금액</th>
+          <th>투자금</th>
+          <th />
+        </tr>
       </thead>
       <tbody>
         <tools-financial-statement-row v-for="f in financialList" :key="`finanlcial-line-${f.id}`" :row="f" :type-list="typeList" @change="updateData" @delete="deleteData" />
