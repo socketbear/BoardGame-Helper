@@ -1,10 +1,8 @@
 # Board Game Helper
 ## support games
 - 부자만들기
-
-## Checklist
-아직 해야 할 것 들...
-- [ ] Change the favicon in `public`
+- 하나비
+- 판타지 왕국
 
 And, enjoy :)
 
