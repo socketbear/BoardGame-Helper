@@ -1,45 +1,19 @@
-# Board Game Helper
-## support games
-- 부자만들기
-- 하나비
-- 판타지 왕국
+# Board Game Helper V2
+보드게임 헬퍼 서비스들을 하나씩 하나씩 모아둔 개인 프로젝트입니다.
+해당 프로젝트는 `pnpm` 을 사용하여 개발되었습니다.
 
-And, enjoy :)
-
-## Usage
-
-### Development
-
-Just run and visit http://localhost:3333
-
+## 프로젝트 개발 모드로 실행 방법
 ```bash
+pnpm install
 pnpm dev
 ```
 
-### Build
-
-To build the App, run
-
+## 프로젝트 빌드 방법
+Nuxt SSR 모드를 사용하나, 빌드는 정적으로 빌드하여 제공하게 구성했습니다.
 ```bash
-pnpm build
+pnpm generate
 ```
 
-And you will see the generated file in `dist` that ready to be served.
-
-### Deploy on Netlify
-
-Go to [Netlify](https://app.netlify.com/start) and select your clone, `OK` along the way, and your App will be live in a minute.
-
-### Docker Production Build
-
-First, build the vitesse image by opening the terminal in the project's root directory.
-
-```bash
-docker buildx build . -t vitesse:latest
-```
-
-Run the image and specify port mapping with the `-p` flag.
-
-```bash
-docker run --rm -it -p 8080:80 vitesse:latest
-```
+## 프로젝트 배포 방법
+Netlify 를 사용하여 배포할 수 있는 설정을 구성하였습니다. (`netlify.toml` 참고)
+git push 후, Netlify 에서 자동으로 배포하게 구성하는 것을 추천합니다.
