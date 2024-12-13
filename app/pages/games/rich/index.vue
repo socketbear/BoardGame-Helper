@@ -76,7 +76,7 @@ const bank = ref<avatar>({
   id: 'bank',
   name: '부자은행',
   color: 'bg-gray-500',
-  budget: 0,
+  budget: 500000,
   unit: '',
   useReport: false,
 })
@@ -184,61 +184,63 @@ onBeforeUnmount(() => {
   <div class="w-full">
     <div>Rich!!</div>
     <template v-if="stage === STAGE.PREPARE">
-      <h2 class="text-left text-lg">
-        단위를 선택해 주세요.
-      </h2>
-      <UnitSelector @select="selectUnit" />
-      <div class="my-2 w-full border-b-2" />
-      <h2 class="text-left text-xl">
-        은행
-      </h2>
-      <tools-color-selector :is-mono="true" :color="bank.color" @select="selectColorForBank" />
-      <NumberSetter @change="(amount: number) => bank.budget = amount" />
-      <div class="my-2 w-full border-b-2" />
-      <h2 class="text-left text-xl">
-        플레이어
-      </h2>
-      <div class="my-2 w-full border-b-2" />
-      <div v-for="(act, idx) in players" :key="`prepare-${act.id}`" class="w-full">
-        <div class="flex justify-between">
-          <div class="flex items-center">
-            <h2 class="mr-4 text-left text-lg">
-              플레이어 {{ idx + 1 }}
-            </h2>
-            <div class="relative">
-              <input v-model="act.name" type="text" class="mr-2 border p-2" placeholder="이름을 입력해 주세요.">
-              <button
-                class="absolute right-4 top-3 hover:text-red-600 active:hover:text-red-400"
-                @click="act.name = ''"
+      <div class="p-4">
+        <h2 class="text-left text-lg">
+          단위를 선택해 주세요.
+        </h2>
+        <UnitSelector @select="selectUnit" />
+        <div class="my-2 w-full border-b-2" />
+        <h2 class="text-left text-xl">
+          은행
+        </h2>
+        <tools-color-selector :is-mono="true" :color="bank.color" @select="selectColorForBank" />
+        <NumberSetter @change="(amount: number) => bank.budget = amount" />
+        <div class="my-2 w-full border-b-2" />
+        <h2 class="text-left text-xl">
+          플레이어
+        </h2>
+        <div class="my-2 w-full border-b-2" />
+        <div v-for="(act, idx) in players" :key="`prepare-${act.id}`" class="w-full">
+          <div class="flex justify-between">
+            <div class="flex items-center">
+              <h2 class="mr-4 text-left text-lg">
+                플레이어 {{ idx + 1 }}
+              </h2>
+              <div class="relative">
+                <input v-model="act.name" type="text" class="mr-2 border p-2" placeholder="이름을 입력해 주세요.">
+                <button
+                  class="absolute right-4 top-3 hover:text-red-600 active:hover:text-red-400"
+                  @click="act.name = ''"
+                >
+                  <div i-carbon-close-filled />
+                </button>
+              </div>
+              <div
+                v-for="p in preDefinedPlayers" :key="`pre-defined-namem-${act.id}-${p}`"
+                class="name-tag mx-2 h-8 flex cursor-pointer items-center rounded-xl bg-gray-200 p-2 text-center"
+                @click="act.name = p"
               >
-                <div i-carbon-close-filled />
-              </button>
+                {{ p }}
+              </div>
             </div>
-            <div
-              v-for="p in preDefinedPlayers" :key="`pre-defined-namem-${act.id}-${p}`"
-              class="name-tag mx-2 h-8 flex cursor-pointer items-center rounded-xl bg-gray-200 p-2 text-center"
-              @click="act.name = p"
-            >
-              {{ p }}
-            </div>
+            <button class="tiny-del-btn my-1" @click="deletePlayer(act)">
+              삭제
+            </button>
           </div>
-          <button class="tiny-del-btn my-1" @click="deletePlayer(act)">
-            삭제
+          <tools-color-selector :color="act.color" @select="(color: string) => act.color = color" />
+          <NumberSetter :budget="act.budget" @change="(amount: number) => act.budget = amount" />
+          <div class="my-2 w-full border-b-2" />
+        </div>
+        <div class="flex justify-center">
+          <button class="tiny-btn mr-2 flex items-center" @click="addPlayer">
+            추가
+            <div class="i-carbon-add w-4" />
+          </button>
+          <button class="tiny-btn flex items-center" @click="goStartState">
+            완료
+            <div class="i-carbon-task-complete w-4" />
           </button>
         </div>
-        <tools-color-selector :color="act.color" @select="(color: string) => act.color = color" />
-        <NumberSetter :budget="act.budget" @change="(amount: number) => act.budget = amount" />
-        <div class="my-2 w-full border-b-2" />
-      </div>
-      <div class="flex justify-center">
-        <button class="tiny-btn mr-2 flex items-center" @click="addPlayer">
-          추가
-          <div class="i-carbon-add w-4" />
-        </button>
-        <button class="tiny-btn flex items-center" @click="goStartState">
-          완료
-          <div class="i-carbon-task-complete w-4" />
-        </button>
       </div>
     </template>
     <template v-if="stage === STAGE.START">
@@ -280,7 +282,7 @@ onBeforeUnmount(() => {
             <div i-carbon-close class="h-5 w-5" />
           </button>
         </div>
-        <div class="p-4">
+        <div class="w-80 p-4">
           <Calculator ref="calc" />
         </div>
         <button
@@ -294,7 +296,7 @@ onBeforeUnmount(() => {
       <div v-if="boardData" class="flex flex-wrap">
         <tools-financial-statement-main
           v-for="act in reportActors" :key="`financial-report-${act.id}`"
-          :title="act.name" :type-list="boardData.typeList" :financial-id="act.id" class="mx-2"
+          :title="act.name" :type-list="boardData.typeList" :financial-id="act.id" class="m-2"
           @adjust="adjustAmount"
         />
       </div>

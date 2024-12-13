@@ -45,47 +45,42 @@ function alignFinancialRows() {
 }
 
 // parentType, childType 정보로 typeList 에서 해당 object 찾아 해당 값을 변경
-function searchType(typeList: IFinancialTypeList[], parentType: string, childType: string): { amount: number, worth: number } {
-  const target = typeList.find(t => t.id === parentType)
-  if (target) {
-    const child = target.children.find((c: IFinancialType) => c.id === childType)
-    if (child)
-      return { amount: child.amount, worth: child.worth }
+function searchType(typeList: IFinancialTypeList[], childTypeId: string) {
+  info('searchType', { typeList, childTypeId })
+  for (const parent of typeList) {
+    for (const child of parent.children) {
+      if (child.id === childTypeId) {
+        return {
+          amount: child.amount,
+          worth: child.worth,
+          parentType: parent.id,
+          childType: child.id,
+          inout: child.inout,
+        }
+      }
+    }
   }
-  return { amount: 0, worth: 0 }
-}
 
-function updateInout(id: string, inout: IN_OUT) {
-  info('updateInout', { id, inout })
-  const target = financialList.value.find(f => f.id === id)
-  if (target) {
-    target.inout = inout
-    target.childType = FINANCIAL_TYPE.CHILD_UNKNOWN
-    target.parentType = FINANCIAL_TYPE.PARENT_UNKNOWN
-    target.amount = 0
-    target.worth = 0
-  }
-}
-
-function updateParentType(id: string, parentType: string) {
-  info('updateParentType', { id, parentType })
-  const target = financialList.value.find(f => f.id === id)
-  if (target) {
-    target.parentType = parentType
-    target.childType = FINANCIAL_TYPE.CHILD_UNKNOWN
-    target.amount = 0
-    target.worth = 0
+  return {
+    amount: 0,
+    worth: 0,
+    inout: IN_OUT.IN,
+    parentType: FINANCIAL_TYPE.PARENT_UNKNOWN,
+    childType: FINANCIAL_TYPE.CHILD_UNKNOWN
   }
 }
 
-function updateChildType(id: string, childType: string) {
-  info('updateChildType', { id, childType })
+function updateChildType(id: string, childTypeId: string) {
   const target = financialList.value.find(f => f.id === id)
   if (target) {
-    target.childType = childType
-    const searchedType = searchType(typeList, target.parentType, target.childType)
+    info('[start] updateChildType', { id, childTypeId })
+    const searchedType = searchType(typeList, childTypeId)
+    target.inout = searchedType.inout
+    target.parentType = searchedType.parentType
+    target.childType = searchedType.childType
     target.amount = searchedType.amount
     target.worth = searchedType.worth
+    info('[end] updateChildType', { id, childTypeId, target, searchedType })
   }
 }
 
@@ -131,8 +126,6 @@ function calTotalAmount() {
       <thead>
         <tr>
           <th />
-          <th>수입/지출</th>
-          <th>분류</th>
           <th>항목</th>
           <th>금액</th>
           <th>투자금</th>
@@ -151,8 +144,6 @@ function calTotalAmount() {
           :worth="f.worth"
           :type-list="typeList"
           @delete="deleteData"
-          @update:inout="updateInout(f.id, $event)"
-          @update:parent-type="updateParentType(f.id, $event)"
           @update:child-type="updateChildType(f.id, $event)"
         />
       </tbody>
