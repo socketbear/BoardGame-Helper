@@ -26,6 +26,7 @@ defineEmits<{
               history.type === 'add' ? '입금' : 
               history.type === 'withdraw' ? '출금' : 
               history.type === 'transfer' ? '이체' :
+              history.type === 'settlement' ? '정산' :
               ''
             }}
           </span>
@@ -41,7 +42,7 @@ defineEmits<{
         <div class="mt-1 text-right text-lg font-bold" 
           :class="{
             'text-red-500': history.type === 'withdraw',
-            'text-green-500': history.type === 'add'
+            'text-green-500': ['add', 'settlement'].includes(history.type)
           }"
         >
           {{ history.amount.toLocaleString() }}

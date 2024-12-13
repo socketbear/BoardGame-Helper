@@ -190,18 +190,39 @@ function adjustAmount({ financialId, amount }: {
 }) {
   playCashSfx()
   const avatar = actors.value.find(a => a.id === financialId)
-  if (avatar)
+  if (avatar) {
     avatar.budget += amount
+    addHistory({
+      type: 'settlement',
+      to: avatar.name,
+      amount: Math.abs(amount)
+    })
+  }
 }
+
+// 게임 상태를 추적하는 변수 추가
+const isGameStarted = computed(() => stage.value === STAGE.START)
 
 // beforeunload 핸들러 수정
 const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-  event.preventDefault()
-  return '게임을 종료하시겠습니까?'
+  // 게임이 시작된 상태일 때만 경고
+  if (isGameStarted.value) {
+    event.preventDefault()
+    return '게임을 종료하시겠습니까?'
+  }
 }
 
 onMounted(() => {
-  window.addEventListener('beforeunload', handleBeforeUnload)
+  // 게임 시작 후 첫 상호작용이 있을 때 이벤트 리스너 등록
+  const addBeforeUnloadListener = () => {
+    if (isGameStarted.value) {
+      window.addEventListener('beforeunload', handleBeforeUnload)
+      // 이벤트 리스너는 한 번만 등록하면 되므로 제거
+      document.removeEventListener('click', addBeforeUnloadListener)
+    }
+  }
+  
+  document.addEventListener('click', addBeforeUnloadListener)
 })
 
 onUnmounted(() => {
@@ -210,13 +231,17 @@ onUnmounted(() => {
 
 // 라우터 이동 감지
 onBeforeRouteLeave((to, from, next) => {
-  const answer = window.confirm('게임을 종료하시겠습니까?');
-  if (answer) {
-    next();
+  if (isGameStarted.value) {
+    const answer = window.confirm('게임을 종료하시겠습니까?')
+    if (answer) {
+      next()
+    } else {
+      next(false)
+    }
   } else {
-    next(false);
+    next()
   }
-});
+})
 </script>
 
 <template>
@@ -359,7 +384,7 @@ onBeforeRouteLeave((to, from, next) => {
             <div i-carbon-document class="h-6 w-6" />
           </button>
         </div>
-        <HistoryViewer
+        <tools-financial-statement-history-viewer
           :histories="histories"
           :visible="showHistory"
           @close="showHistory = false"

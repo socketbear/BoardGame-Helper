@@ -53,7 +53,7 @@ export interface IBoardData {
   preDefinedPlayers: string[]
 }
 
-export type HistoryType = 'add' | 'withdraw' | 'transfer'
+export type HistoryType = 'add' | 'withdraw' | 'transfer' | 'settlement'
 
 export interface IHistory {
   id: string
