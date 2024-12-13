@@ -166,18 +166,29 @@ function adjustAmount({ financialId, amount }: {
     avatar.budget += amount
 }
 
-function preventClose(e: BeforeUnloadEvent) {
-  e.preventDefault()
-  e.returnValue = ''
+// beforeunload 핸들러 수정
+const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+  event.preventDefault()
+  return '게임을 종료하시겠습니까?'
 }
 
 onMounted(() => {
-  window.addEventListener('beforeunload', preventClose)
+  window.addEventListener('beforeunload', handleBeforeUnload)
 })
 
-onBeforeUnmount(() => {
-  window.removeEventListener('beforeunload', preventClose)
+onUnmounted(() => {
+  window.removeEventListener('beforeunload', handleBeforeUnload)
 })
+
+// 라우터 이동 감지
+onBeforeRouteLeave((to, from, next) => {
+  const answer = window.confirm('게임을 종료하시겠습니까?');
+  if (answer) {
+    next();
+  } else {
+    next(false);
+  }
+});
 </script>
 
 <template>
