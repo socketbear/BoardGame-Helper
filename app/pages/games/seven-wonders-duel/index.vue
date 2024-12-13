@@ -1,122 +1,129 @@
 <template>
-  <div class="max-w-4xl mx-auto p-6">
-    <h1 class="text-3xl font-bold text-center mb-8">세븐 원더스 듀얼 점수 계산</h1>
-    
-    <div class="mb-8">
-      <el-row :gutter="20">
-        <el-col :span="12">
-          <el-input
-            v-model="player1Name"
-            placeholder="플레이어 1 이름"
-            class="w-full"
-          >
-            <template #prefix>
-              <el-icon><User /></el-icon>
-            </template>
-          </el-input>
-          <div class="flex gap-2 mt-2">
-            <el-tag
-              v-for="name in quickNames"
-              :key="name"
-              :type="player1Name === name ? 'success' : ''"
-              class="cursor-pointer"
-              @click="player1Name = name"
-            >
-              {{ name }}
-            </el-tag>
-          </div>
-        </el-col>
-        <el-col :span="12">
-          <el-input
-            v-model="player2Name"
-            placeholder="플레이어 2 이름"
-            class="w-full"
-          >
-            <template #prefix>
-              <el-icon><User /></el-icon>
-            </template>
-          </el-input>
-          <div class="flex gap-2 mt-2">
-            <el-tag
-              v-for="name in quickNames"
-              :key="name"
-              :type="player2Name === name ? 'success' : ''"
-              class="cursor-pointer"
-              @click="player2Name = name"
-            >
-              {{ name }}
-            </el-tag>
-          </div>
-        </el-col>
-      </el-row>
-    </div>
+  <div>
+    <el-page-header @back="() => $router.push('/')" class="mt-2 ml-4">
+      <template #content>
+        <span class="text-large font-bold mr-3">세븐 원더스 듀얼 점수 계산기</span>
+      </template>
+    </el-page-header>
 
-    <el-table :data="scoreData" border class="w-full">
-      <el-table-column prop="category" label="점수 항목" width="180">
-        <template #default="scope">
-          <div class="flex items-center gap-2">
-            <div :class="['icon-wrapper', scope.row.key]"></div>
-            <span class="font-medium">{{ scope.row.category }}</span>
-          </div>
-        </template>
-      </el-table-column>
+    <div class="max-w-4xl min-w-[560px] mx-auto p-6">
       
-      <el-table-column :label="player1Name || '플레이어 1'">
-        <template #default="scope">
-          <div class="flex items-center">
-            <el-input-number 
-              v-model="scores.player1[scope.row.key]"
-              :min="0"
-              :max="scope.row.max || 99"
+      <div class="mb-8">
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-input
+              v-model="player1Name"
+              placeholder="플레이어 1 이름"
               class="w-full"
-              @focus="openNumberPad('player1', scope.row.key, $event)"
-            />
-          </div>
-        </template>
-      </el-table-column>
-      
-      <el-table-column :label="player2Name || '플레이어 2'">
-        <template #default="scope">
-          <div class="flex items-center">
-            <el-input-number 
-              v-model="scores.player2[scope.row.key]"
-              :min="0"
-              :max="scope.row.max || 99"
+            >
+              <template #prefix>
+                <el-icon><User /></el-icon>
+              </template>
+            </el-input>
+            <div class="flex gap-2 mt-2">
+              <el-tag
+                v-for="name in quickNames"
+                :key="name"
+                :type="player1Name === name ? 'success' : 'info'"
+                class="cursor-pointer"
+                @click="player1Name = name"
+              >
+                {{ name }}
+              </el-tag>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <el-input
+              v-model="player2Name"
+              placeholder="플레이어 2 이름"
               class="w-full"
-              @focus="openNumberPad('player2', scope.row.key, $event)"
-            />
-          </div>
-        </template>
-      </el-table-column>
-    </el-table>
+            >
+              <template #prefix>
+                <el-icon><User /></el-icon>
+              </template>
+            </el-input>
+            <div class="flex gap-2 mt-2">
+              <el-tag
+                v-for="name in quickNames"
+                :key="name"
+                :type="player2Name === name ? 'success' : 'info'"
+                class="cursor-pointer"
+                @click="player2Name = name"
+              >
+                {{ name }}
+              </el-tag>
+            </div>
+          </el-col>
+        </el-row>
+      </div>
 
-    <tools-number-pad
-      v-model="currentScore"
-      v-model:visible="numberPadVisible"
-      :title="numberPadTitle"
-    />
+      <el-table :data="scoreData" border class="w-full">
+        <el-table-column prop="category" label="점수 항목" width="180">
+          <template #default="scope">
+            <div class="flex items-center gap-2">
+              <div :class="['icon-wrapper', scope.row.key]"></div>
+              <span class="font-medium">{{ scope.row.category }}</span>
+            </div>
+          </template>
+        </el-table-column>
+        
+        <el-table-column :label="player1Name || '플레이어 1'">
+          <template #default="scope">
+            <div class="flex items-center justify-center">
+              <el-input-number 
+                v-model="scores.player1[scope.row.key]"
+                :min="0"
+                :max="scope.row.max || 99"
+                class="w-full"
+                @focus="openNumberPad('player1', scope.row.key, $event)"
+              />
+            </div>
+          </template>
+        </el-table-column>
+        
+        <el-table-column :label="player2Name || '플���이어 2'">
+          <template #default="scope">
+            <div class="flex items-center justify-center">
+              <el-input-number 
+                v-model="scores.player2[scope.row.key]"
+                :min="0"
+                :max="scope.row.max || 99"
+                class="w-full"
+                @focus="openNumberPad('player2', scope.row.key, $event)"
+              />
+            </div>
+          </template>
+        </el-table-column>
+      </el-table>
 
-    <div class="mt-8 bg-gray-100 rounded-lg p-6">
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <div class="text-center">
-            <h3 class="text-xl font-bold mb-2">{{ player1Name || '플레이어 1' }}</h3>
-            <div class="text-3xl text-blue-600">{{ calculateTotal('player1') }}</div>
-          </div>
-        </el-col>
-        <el-col :span="8">
-          <div class="text-center">
-            <h3 class="text-xl font-bold mb-2">승자</h3>
-            <div class="text-3xl text-red-600">{{ winner }}</div>
-          </div>
-        </el-col>
-        <el-col :span="8">
-          <div class="text-center">
-            <h3 class="text-xl font-bold mb-2">{{ player2Name || '플레이어 2' }}</h3>
-            <div class="text-3xl text-blue-600">{{ calculateTotal('player2') }}</div>
-          </div>
-        </el-col>
-      </el-row>
+      <tools-number-pad
+        v-model="currentScore"
+        v-model:visible="numberPadVisible"
+        :title="numberPadTitle"
+      />
+
+      <div class="mt-8 bg-gray-100 rounded-lg p-6">
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <div class="text-center">
+              <h3 class="text-xl font-bold mb-2">{{ player1Name || '플레이어 1' }}</h3>
+              <div class="text-3xl text-blue-600">{{ calculateTotal('player1') }}</div>
+            </div>
+          </el-col>
+          <el-col :span="8">
+            <div class="text-center">
+              <h3 class="text-xl font-bold mb-2">승자</h3>
+              <div class="text-3xl text-red-600">{{ winner }}</div>
+            </div>
+          </el-col>
+          <el-col :span="8">
+            <div class="text-center">
+              <h3 class="text-xl font-bold mb-2">{{ player2Name || '플레이어 2' }}</h3>
+              <div class="text-3xl text-blue-600">{{ calculateTotal('player2') }}</div>
+            </div>
+          </el-col>
+        </el-row>
+      </div>
     </div>
   </div>
 </template>
@@ -235,7 +242,7 @@ const quickNames = ['도바킨', '아빠', '엄마', '삼촌', '친구']
   border: 1px solid #ca8a04;
 }
 
-/* ��드 카드 - 보라색 카드 */
+/* 길드 카드 - 보라색 카드 */
 .guilds {
   background-color: #9333ea;
   border: 1px solid #7e22ce;
@@ -281,5 +288,9 @@ const quickNames = ['도바킨', '아빠', '엄마', '삼촌', '친구']
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+:deep(.el-table__header .cell) {
+  text-align: center;
 }
 </style>

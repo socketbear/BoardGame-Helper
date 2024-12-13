@@ -17,27 +17,32 @@ watch(cardCount, () => {
 </script>
 
 <template>
-  <div>
-    <h2 class="mb-4 text-2xl font-bold">
-      {{ title }}
-    </h2>
-    <div class="hanabi-game">
-      <div class="card-count-selector">
-        <button
-          v-for="count in [3, 4, 5]"
-          :key="count"
-          :class="{ active: cardCount === count }"
-          @click="updateCardCount(count)"
-        >
-          {{ count }}
-        </button>
-      </div>
-      <div class="cards-container">
-        <HanabiCard
-          v-for="index in cardCount"
-          :key="`${index}-${resetTrigger}`"
-          :index="index"
-        />
+  <div class="w-full">
+    <el-page-header @back="() => $router.push('/')" class="mt-2 ml-4">
+      <template #content>
+        <span class="text-large font-bold mr-3">{{ title }}</span>
+      </template>
+    </el-page-header>
+
+    <div class="mt-2">
+      <div class="hanabi-game">
+        <div class="card-count-selector">
+          <button
+            v-for="count in [3, 4, 5]"
+            :key="count"
+            :class="{ active: cardCount === count }"
+            @click="updateCardCount(count)"
+          >
+            {{ count }}
+          </button>
+        </div>
+        <div class="cards-container">
+          <HanabiCard
+            v-for="index in cardCount"
+            :key="`${index}-${resetTrigger}`"
+            :index="index"
+          />
+        </div>
       </div>
     </div>
   </div>

@@ -52,3 +52,14 @@ export interface IBoardData {
   typeList: IFinancialTypeList[]
   preDefinedPlayers: string[]
 }
+
+export type HistoryType = 'add' | 'withdraw' | 'transfer'
+
+export interface IHistory {
+  id: string
+  timestamp: Date
+  type: HistoryType
+  from?: string
+  to: string
+  amount: number
+}
