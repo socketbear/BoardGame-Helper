@@ -81,7 +81,7 @@
           </template>
         </el-table-column>
         
-        <el-table-column :label="player2Name || '플���이어 2'">
+        <el-table-column :label="player2Name || '플레이어 2'">
           <template #default="scope">
             <div class="flex items-center justify-center">
               <el-input-number 
