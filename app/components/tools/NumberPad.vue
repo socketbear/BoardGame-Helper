@@ -196,4 +196,12 @@ const dialogVisible = computed({
   margin: 0;
   padding: 0;
 }
+
+:deep(.el-dialog) {
+  --el-dialog-margin-top: 15vh;
+}
+
+:deep(.el-overlay) {
+  z-index: 2000 !important;
+}
 </style>

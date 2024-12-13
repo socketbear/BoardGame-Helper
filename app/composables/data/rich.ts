@@ -5,7 +5,7 @@ export function getData(): IBoardData {
   return {
     unit: '만원',
     unitPosition: UNIT_POSITION.BACK,
-    preDefinedPlayers: ['도바킨', '엄마', '아빠', '삼촌'],
+    preDefinedPlayers: ['도바킨', '엄마', '아빠', '삼촌', '기부금', '친구'],
     typeList: [
       {
         id: 'unknown',
@@ -26,13 +26,6 @@ export function getData(): IBoardData {
         name: '부동산',
         color: 'yellow-400',
         children: [
-          {
-            id: 'unknown-child',
-            name: '없음',
-            inout: IN_OUT.IN,
-            amount: 0,
-            worth: 0,
-          },
           {
             id: 'vill1',
             name: '빌라450',
@@ -97,13 +90,6 @@ export function getData(): IBoardData {
         color: 'red-400',
         children: [
           {
-            id: 'unknown-child',
-            name: '없음',
-            inout: IN_OUT.IN,
-            amount: 0,
-            worth: 0,
-          },
-          {
             id: 'invt1',
             name: '연예인 엔터테인먼트',
             inout: IN_OUT.IN,
@@ -159,13 +145,6 @@ export function getData(): IBoardData {
         name: '창업',
         color: 'green-400',
         children: [
-          {
-            id: 'unknown-child',
-            name: '없음',
-            inout: IN_OUT.IN,
-            amount: 0,
-            worth: 0,
-          },
           {
             id: 'foud1',
             name: '장어구이전문점',
@@ -258,13 +237,6 @@ export function getData(): IBoardData {
         color: 'red-400',
         children: [
           {
-            id: 'unknown-child',
-            name: '없음',
-            inout: IN_OUT.OUT,
-            amount: 0,
-            worth: 0,
-          },
-          {
             id: 'loan100',
             name: '이자 100',
             inout: IN_OUT.OUT,
@@ -299,13 +271,6 @@ export function getData(): IBoardData {
         name: '수입',
         color: 'green-400',
         children: [
-          {
-            id: 'unknown-child',
-            name: '없음',
-            inout: IN_OUT.IN,
-            amount: 0,
-            worth: 0,
-          },
           {
             id: 'salary',
             name: '월급',

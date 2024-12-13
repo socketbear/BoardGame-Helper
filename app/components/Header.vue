@@ -34,6 +34,9 @@ const { isLocalhost } = useHostCheck()
       <el-menu-item index="/games/fantasy-kingdom">
         판타지 왕국
       </el-menu-item>
+      <el-menu-item index="/games/seven-wonders-duel">
+        세븐 원더스 듀얼
+      </el-menu-item>
     </el-sub-menu>
     <el-menu-item index="/about">
       About

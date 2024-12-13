@@ -1,5 +1,5 @@
 <template>
-  <main class="h-full flex flex-col overflow-y-auto px-10 text-center">
+  <main class="h-full flex flex-col overflow-y-auto text-center">
     <Header />
     <slot />
     <Footer />
