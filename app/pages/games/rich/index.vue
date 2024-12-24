@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { avatar, IPopupState, IHistory } from '~/types/RichTypes'
+import type { avatar, IHistory, IPopupState } from '~/types/RichTypes'
 import { useSound } from '@vueuse/sound'
 import Calculator from '~/components/tools/Calculator.vue'
 import NumberSetter from '~/components/tools/NumberSetter.vue'
@@ -154,7 +154,7 @@ function addHistory(history: Omit<IHistory, 'id' | 'timestamp'>) {
 function doneUseCalc() {
   if (calc.value) {
     const amount = calc.value.getNum()
-    
+
     if (calcState.state === 'add') {
       if (calcState.to) {
         calcState.to.budget += amount
@@ -195,7 +195,7 @@ function adjustAmount({ financialId, amount }: {
     addHistory({
       type: 'settlement',
       to: avatar.name,
-      amount: Math.abs(amount)
+      amount: Math.abs(amount),
     })
   }
 }
@@ -204,7 +204,7 @@ function adjustAmount({ financialId, amount }: {
 const isGameStarted = computed(() => stage.value === STAGE.START)
 
 // beforeunload 핸들러 수정
-const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+function handleBeforeUnload(event: BeforeUnloadEvent) {
   // 게임이 시작된 상태일 때만 경고
   if (isGameStarted.value) {
     event.preventDefault()
@@ -221,7 +221,7 @@ onMounted(() => {
       document.removeEventListener('click', addBeforeUnloadListener)
     }
   }
-  
+
   document.addEventListener('click', addBeforeUnloadListener)
 })
 
@@ -235,10 +235,12 @@ onBeforeRouteLeave((to, from, next) => {
     const answer = window.confirm('게임을 종료하시겠습니까?')
     if (answer) {
       next()
-    } else {
+    }
+    else {
       next(false)
     }
-  } else {
+  }
+  else {
     next()
   }
 })
@@ -246,9 +248,9 @@ onBeforeRouteLeave((to, from, next) => {
 
 <template>
   <div class="w-full">
-    <el-page-header @back="() => $router.push('/')" class="mt-2 ml-4">
+    <el-page-header class="ml-4 mt-2" @back="() => $router.push('/')">
       <template #content>
-        <span class="text-large font-bold mr-3">부자만들기</span>
+        <span class="text-large mr-3 font-bold">부자만들기</span>
         <span v-if="stage === STAGE.START" class="text-sm text-gray-500">
           게임 진행중
         </span>
@@ -293,13 +295,13 @@ onBeforeRouteLeave((to, from, next) => {
                 </div>
                 <div
                   v-for="p in preDefinedPlayers" :key="`pre-defined-namem-${act.id}-${p}`"
-                  class="name-tag mx-2 h-8 flex cursor-pointer items-center rounded-xl bg-gray-200 p-2 text-center"
+                  class="mx-2 h-8 flex cursor-pointer items-center rounded-xl bg-gray-200 p-2 text-center name-tag"
                   @click="act.name = p"
                 >
                   {{ p }}
                 </div>
               </div>
-              <button class="tiny-del-btn my-1" @click="deletePlayer(act)">
+              <button class="my-1 tiny-del-btn" @click="deletePlayer(act)">
                 삭제
               </button>
             </div>
@@ -308,11 +310,11 @@ onBeforeRouteLeave((to, from, next) => {
             <div class="my-2 w-full border-b-2" />
           </div>
           <div class="flex justify-center">
-            <button class="tiny-btn mr-2 flex items-center" @click="addPlayer">
+            <button class="mr-2 flex items-center tiny-btn" @click="addPlayer">
               추가
               <div class="i-carbon-add w-4" />
             </button>
-            <button class="tiny-btn flex items-center" @click="goStartState">
+            <button class="flex items-center tiny-btn" @click="goStartState">
               완료
               <div class="i-carbon-task-complete w-4" />
             </button>

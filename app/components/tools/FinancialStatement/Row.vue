@@ -63,7 +63,7 @@ function toogleChildTypeView() {
           :data="typeList"
           :props="{
             value: 'id',
-            label: 'name'
+            label: 'name',
           }"
           :render-after-expand="false"
           clearable
@@ -79,7 +79,7 @@ function toogleChildTypeView() {
     <td><tools-financial-statement-currency :amount="amount" /></td>
     <td><tools-financial-statement-currency :amount="worth" /></td>
     <td>
-      <button class="tiny-del-btn my-1" @click="emit('delete', { id: fId, worth })">
+      <button class="my-1 tiny-del-btn" @click="emit('delete', { id: fId, worth })">
         삭제
       </button>
     </td>

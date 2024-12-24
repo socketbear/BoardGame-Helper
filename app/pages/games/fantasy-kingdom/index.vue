@@ -94,9 +94,9 @@ const currentValue = computed({
 
 <template>
   <div>
-    <el-page-header @back="() => $router.push('/')" class="mt-2 ml-4">
+    <el-page-header class="ml-4 mt-2" @back="() => $router.push('/')">
       <template #content>
-        <span class="text-large font-bold mr-3">판타지 왕국 점수 계산기</span>
+        <span class="text-large mr-3 font-bold">판타지 왕국 점수 계산기</span>
       </template>
     </el-page-header>
 
@@ -116,7 +116,7 @@ const currentValue = computed({
                     <el-icon><User /></el-icon>
                   </template>
                 </el-input>
-                <div class="flex gap-2 mt-2">
+                <div class="mt-2 flex gap-2">
                   <el-tag
                     v-for="name in quickNames"
                     :key="name"

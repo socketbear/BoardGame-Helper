@@ -18,9 +18,9 @@ watch(cardCount, () => {
 
 <template>
   <div class="w-full">
-    <el-page-header @back="() => $router.push('/')" class="mt-2 ml-4">
+    <el-page-header class="ml-4 mt-2" @back="() => $router.push('/')">
       <template #content>
-        <span class="text-large font-bold mr-3">{{ title }}</span>
+        <span class="text-large mr-3 font-bold">{{ title }}</span>
       </template>
     </el-page-header>
 
