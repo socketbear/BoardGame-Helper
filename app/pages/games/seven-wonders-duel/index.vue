@@ -1,13 +1,92 @@
+<script setup>
+import { User } from '@element-plus/icons-vue'
+
+const player1Name = ref('')
+const player2Name = ref('')
+
+const scores = ref({
+  player1: {
+    military: 0,
+    treasury: 0,
+    wonders: 0,
+    civilian: 0,
+    commercial: 0,
+    guilds: 0,
+    science: 0,
+    progress: 0,
+  },
+  player2: {
+    military: 0,
+    treasury: 0,
+    wonders: 0,
+    civilian: 0,
+    commercial: 0,
+    guilds: 0,
+    science: 0,
+    progress: 0,
+  },
+})
+
+const scoreData = [
+  { category: '시민 건물', key: 'civilian' },
+  { category: '과학 건물', key: 'science' },
+  { category: '상업 건물', key: 'commercial' },
+  { category: '길드 카드', key: 'guilds' },
+  { category: '불가사의', key: 'wonders' },
+  { category: '진보 토큰', key: 'progress' },
+  { category: '코인', key: 'treasury' },
+  { category: '군사 점수', key: 'military' },
+]
+
+function calculateTotal(player) {
+  return Object.values(scores.value[player]).reduce((sum, score) => sum + Number(score), 0)
+}
+
+const winner = computed(() => {
+  const total1 = calculateTotal('player1')
+  const total2 = calculateTotal('player2')
+
+  if (total1 > total2)
+    return player1Name.value || '플레이어 1'
+  if (total2 > total1)
+    return player2Name.value || '플레이어 2'
+  return '무승부'
+})
+
+const currentScore = ref(0)
+const numberPadVisible = ref(false)
+const numberPadTitle = ref('')
+const currentPlayer = ref('')
+const currentKey = ref('')
+
+function openNumberPad(player, key, event) {
+  event.target.blur()
+
+  currentPlayer.value = player
+  currentKey.value = key
+  currentScore.value = scores.value[player][key]
+  numberPadTitle.value = `${scoreData.find(item => item.key === key).category} 점수 입력`
+  numberPadVisible.value = true
+}
+
+watch(currentScore, (newValue) => {
+  if (currentPlayer.value && currentKey.value) {
+    scores.value[currentPlayer.value][currentKey.value] = newValue
+  }
+})
+
+const quickNames = ['도바킨', '아빠', '엄마', '삼촌', '친구']
+</script>
+
 <template>
   <div>
-    <el-page-header @back="() => $router.push('/')" class="mt-2 ml-4">
+    <el-page-header class="ml-4 mt-2" @back="() => $router.push('/')">
       <template #content>
-        <span class="text-large font-bold mr-3">세븐 원더스 듀얼 점수 계산기</span>
+        <span class="text-large mr-3 font-bold">세븐 원더스 듀얼 점수 계산기</span>
       </template>
     </el-page-header>
 
-    <div class="max-w-4xl min-w-[560px] mx-auto p-6">
-      
+    <div class="mx-auto max-w-4xl min-w-[560px] p-6">
       <div class="mb-8">
         <el-row :gutter="20">
           <el-col :span="12">
@@ -20,7 +99,7 @@
                 <el-icon><User /></el-icon>
               </template>
             </el-input>
-            <div class="flex gap-2 mt-2">
+            <div class="mt-2 flex gap-2">
               <el-tag
                 v-for="name in quickNames"
                 :key="name"
@@ -42,7 +121,7 @@
                 <el-icon><User /></el-icon>
               </template>
             </el-input>
-            <div class="flex gap-2 mt-2">
+            <div class="mt-2 flex gap-2">
               <el-tag
                 v-for="name in quickNames"
                 :key="name"
@@ -61,16 +140,16 @@
         <el-table-column prop="category" label="점수 항목" width="180">
           <template #default="scope">
             <div class="flex items-center gap-2">
-              <div :class="['icon-wrapper', scope.row.key]"></div>
+              <div class="icon-wrapper" :class="[scope.row.key]" />
               <span class="font-medium">{{ scope.row.category }}</span>
             </div>
           </template>
         </el-table-column>
-        
+
         <el-table-column :label="player1Name || '플레이어 1'">
           <template #default="scope">
             <div class="flex items-center justify-center">
-              <el-input-number 
+              <el-input-number
                 v-model="scores.player1[scope.row.key]"
                 :min="0"
                 :max="scope.row.max || 99"
@@ -80,11 +159,11 @@
             </div>
           </template>
         </el-table-column>
-        
+
         <el-table-column :label="player2Name || '플레이어 2'">
           <template #default="scope">
             <div class="flex items-center justify-center">
-              <el-input-number 
+              <el-input-number
                 v-model="scores.player2[scope.row.key]"
                 :min="0"
                 :max="scope.row.max || 99"
@@ -102,24 +181,36 @@
         :title="numberPadTitle"
       />
 
-      <div class="mt-8 bg-gray-100 rounded-lg p-6">
+      <div class="mt-8 rounded-lg bg-gray-100 p-6">
         <el-row :gutter="20">
           <el-col :span="8">
             <div class="text-center">
-              <h3 class="text-xl font-bold mb-2">{{ player1Name || '플레이어 1' }}</h3>
-              <div class="text-3xl text-blue-600">{{ calculateTotal('player1') }}</div>
+              <h3 class="mb-2 text-xl font-bold">
+                {{ player1Name || '플레이어 1' }}
+              </h3>
+              <div class="text-3xl text-blue-600">
+                {{ calculateTotal('player1') }}
+              </div>
             </div>
           </el-col>
           <el-col :span="8">
             <div class="text-center">
-              <h3 class="text-xl font-bold mb-2">승자</h3>
-              <div class="text-3xl text-red-600">{{ winner }}</div>
+              <h3 class="mb-2 text-xl font-bold">
+                승자
+              </h3>
+              <div class="text-3xl text-red-600">
+                {{ winner }}
+              </div>
             </div>
           </el-col>
           <el-col :span="8">
             <div class="text-center">
-              <h3 class="text-xl font-bold mb-2">{{ player2Name || '플레이어 2' }}</h3>
-              <div class="text-3xl text-blue-600">{{ calculateTotal('player2') }}</div>
+              <h3 class="mb-2 text-xl font-bold">
+                {{ player2Name || '플레이어 2' }}
+              </h3>
+              <div class="text-3xl text-blue-600">
+                {{ calculateTotal('player2') }}
+              </div>
             </div>
           </el-col>
         </el-row>
@@ -127,84 +218,6 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { User } from '@element-plus/icons-vue'
-
-const player1Name = ref('')
-const player2Name = ref('')
-
-const scores = ref({
-  player1: {
-    military: 0,
-    treasury: 0,
-    wonders: 0,
-    civilian: 0,
-    commercial: 0,
-    guilds: 0,
-    science: 0,
-    progress: 0
-  },
-  player2: {
-    military: 0,
-    treasury: 0,
-    wonders: 0,
-    civilian: 0,
-    commercial: 0,
-    guilds: 0,
-    science: 0,
-    progress: 0
-  }
-})
-
-const scoreData = [
-  { category: '시민 건물', key: 'civilian' },
-  { category: '과학 건물', key: 'science' },
-  { category: '상업 건물', key: 'commercial' },
-  { category: '길드 카드', key: 'guilds' },
-  { category: '불가사의', key: 'wonders' },
-  { category: '진보 토큰', key: 'progress' },
-  { category: '코인', key: 'treasury' },
-  { category: '군사 점수', key: 'military' },
-]
-
-const calculateTotal = (player) => {
-  return Object.values(scores.value[player]).reduce((sum, score) => sum + Number(score), 0)
-}
-
-const winner = computed(() => {
-  const total1 = calculateTotal('player1')
-  const total2 = calculateTotal('player2')
-  
-  if (total1 > total2) return player1Name.value || '플레이어 1'
-  if (total2 > total1) return player2Name.value || '플레이어 2'
-  return '무승부'
-})
-
-const currentScore = ref(0)
-const numberPadVisible = ref(false)
-const numberPadTitle = ref('')
-const currentPlayer = ref('')
-const currentKey = ref('')
-
-const openNumberPad = (player, key, event) => {
-  event.target.blur()
-  
-  currentPlayer.value = player
-  currentKey.value = key
-  currentScore.value = scores.value[player][key]
-  numberPadTitle.value = `${scoreData.find(item => item.key === key).category} 점수 입력`
-  numberPadVisible.value = true
-}
-
-watch(currentScore, (newValue) => {
-  if (currentPlayer.value && currentKey.value) {
-    scores.value[currentPlayer.value][currentKey.value] = newValue
-  }
-})
-
-const quickNames = ['도바킨', '아빠', '엄마', '삼촌', '친구']
-</script>
 
 <style scoped>
 :deep(.el-input-number .el-input__wrapper) {
