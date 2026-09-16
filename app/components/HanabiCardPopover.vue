@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import type { CSSProperties } from 'vue'
 import type { PopoverItem } from '~/types/HanabiTypes'
 
 const props = defineProps<{
@@ -16,6 +16,10 @@ const popoverStyle = computed(() => ({
   transform: 'translateX(-50%)', // 중앙 정렬을 위해 추가
 }))
 
+function buttonStyle(item: PopoverItem): CSSProperties | undefined {
+  return item.style ? { ...item.style } : undefined
+}
+
 function selectItem(item: PopoverItem) {
   emit('select', item)
   emit('close')
@@ -31,7 +35,7 @@ function selectItem(item: PopoverItem) {
           :key="item.value"
           class="popover-button"
           :class="{ selected: item.selected, impossible: item.impossible }"
-          :style="item.style"
+          :style="buttonStyle(item)"
           @click="selectItem(item)"
         >
           {{ item.label }}

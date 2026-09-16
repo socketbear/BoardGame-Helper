@@ -68,7 +68,7 @@ function toggleDevMenu(event: Event) {
             @click="toggleGamesMenu"
           >
             보드게임
-            <div class="i-carbon-chevron-down app-header__chevron" :class="{ 'app-header__chevron--open': gamesMenuOpen }" />
+            <div class="app-header__chevron i-carbon-chevron-down" :class="{ 'app-header__chevron--open': gamesMenuOpen }" />
           </button>
 
           <div
@@ -225,7 +225,9 @@ function toggleDevMenu(event: Event) {
   font-weight: 500;
   color: var(--shell-text-muted);
   text-decoration: none;
-  transition: background-color 0.15s, color 0.15s;
+  transition:
+    background-color 0.15s,
+    color 0.15s;
 }
 
 .app-header__link:hover {
@@ -282,7 +284,9 @@ function toggleDevMenu(event: Event) {
   font-size: 0.875rem;
   color: var(--shell-text-muted);
   text-decoration: none;
-  transition: background-color 0.15s, color 0.15s;
+  transition:
+    background-color 0.15s,
+    color 0.15s;
 }
 
 .app-header__dropdown-item:hover {
@@ -314,7 +318,9 @@ function toggleDevMenu(event: Event) {
   background: transparent;
   color: var(--shell-text-muted);
   cursor: pointer;
-  transition: background-color 0.15s, color 0.15s;
+  transition:
+    background-color 0.15s,
+    color 0.15s;
 }
 
 @media (min-width: 768px) {

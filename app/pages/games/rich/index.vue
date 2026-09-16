@@ -1,6 +1,4 @@
 <script setup lang="ts">
-definePageMeta({ layout: 'game' })
-
 import type { avatar, IHistory, IPopupState } from '~/types/RichTypes'
 import { useSound } from '@vueuse/sound'
 import Calculator from '~/components/tools/Calculator.vue'
@@ -9,6 +7,8 @@ import UnitSelector from '~/components/tools/UnitSelector.vue'
 import { useBoardData } from '~/composables/data'
 import { BOARD_GAME, STAGE } from '~/types/RichEnums'
 import cashResiterSfx from '/assets/sounds/cash-register.mp3'
+
+definePageMeta({ layout: 'game' })
 
 const { getUniqueId } = useUtils()
 
@@ -29,11 +29,13 @@ const { style } = useDraggable(calcPop, {
 })
 
 function handleTouchStart(e: TouchEvent) {
-  if (e.touches.length === 1) {
-    isDragging.value = true
-    startOffset.x = e.touches[0].clientX - currentPos.x
-    startOffset.y = e.touches[0].clientY - currentPos.y
-  }
+  const touch = e.touches.length === 1 ? e.touches[0] : undefined
+  if (!touch)
+    return
+
+  isDragging.value = true
+  startOffset.x = touch.clientX - currentPos.x
+  startOffset.y = touch.clientY - currentPos.y
 }
 
 function handleTouchMove(e: TouchEvent) {
@@ -41,13 +43,15 @@ function handleTouchMove(e: TouchEvent) {
     return
   e.preventDefault()
 
-  if (e.touches.length === 1) {
-    currentPos.x = e.touches[0].clientX - startOffset.x
-    currentPos.y = e.touches[0].clientY - startOffset.y
+  const touch = e.touches.length === 1 ? e.touches[0] : undefined
+  if (!touch)
+    return
 
-    if (calcPop.value) {
-      calcPop.value.style.transform = `translate(${currentPos.x}px, ${currentPos.y}px)`
-    }
+  currentPos.x = touch.clientX - startOffset.x
+  currentPos.y = touch.clientY - startOffset.y
+
+  if (calcPop.value) {
+    calcPop.value.style.transform = `translate(${currentPos.x}px, ${currentPos.y}px)`
   }
 }
 
@@ -232,18 +236,23 @@ onUnmounted(() => {
 })
 
 // 라우터 이동 감지
-onBeforeRouteLeave((to, from, next) => {
-  if (isGameStarted.value) {
-    const answer = window.confirm('게임을 종료하시겠습니까?')
-    if (answer) {
-      next()
-    }
-    else {
-      next(false)
-    }
-  }
-  else {
+onBeforeRouteLeave(async (to, from, next) => {
+  if (!isGameStarted.value) {
     next()
+    return
+  }
+
+  try {
+    await ElMessageBox.confirm('게임을 종료하시겠습니까?', '게임 종료', {
+      confirmButtonText: '확인',
+      cancelButtonText: '취소',
+      type: 'warning',
+    })
+    next()
+  }
+  catch {
+    // 취소(또는 닫기) — 기존 confirm 취소와 동일하게 현재 화면에 머문다.
+    next(false)
   }
 })
 </script>

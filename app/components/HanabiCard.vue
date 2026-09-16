@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { StyleValue } from 'vue'
 import type { PopoverItem } from '~/types/HanabiTypes'
 
 const selectedNumber = ref<number | null>(null)
@@ -106,6 +107,11 @@ const colors = [
   { name: '파란색', value: '#0000FF', textColor: '#FFFFFF' },
 ]
 
+const cardFrontStyle = computed<StyleValue>(() => ({
+  backgroundColor: selectedColor.value ?? undefined,
+  color: selectedColor.value ? colors.find(c => c.value === selectedColor.value)?.textColor : '#000000',
+}))
+
 const popoverItems = computed<PopoverItem[]>(() => [
   ...numbers.map(n => ({
     value: n,
@@ -172,7 +178,7 @@ function closeHintPopover() {
           <div class="card-back">
             <div class="pattern" />
           </div>
-          <div class="card-front" :style="{ backgroundColor: selectedColor, color: selectedColor ? colors.find(c => c.value === selectedColor)?.textColor : '#000000' }">
+          <div class="card-front" :style="cardFrontStyle">
             {{ selectedNumber }}
           </div>
         </div>
@@ -201,7 +207,7 @@ function closeHintPopover() {
 
     <div class="hint-icons">
       <div class="hint-row">
-        <span v-for="number in sortedImpossibleNumbers" :key="number" class="hint-icon number-hint">{{ number }}</span>
+        <span v-for="number in sortedImpossibleNumbers" :key="number" class="number-hint hint-icon">{{ number }}</span>
       </div>
       <div class="hint-row">
         <span

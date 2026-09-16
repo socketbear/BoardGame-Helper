@@ -60,7 +60,9 @@
   height: 2.75rem;
   border-radius: 0.5rem;
   color: var(--shell-text-subtle);
-  transition: color 0.15s, background-color 0.15s;
+  transition:
+    color 0.15s,
+    background-color 0.15s;
 }
 
 .app-footer__link:hover {

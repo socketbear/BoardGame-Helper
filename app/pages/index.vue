@@ -11,7 +11,7 @@ onUnmounted(() => {
 
 <template>
   <div class="flex flex-1 items-center justify-center px-4">
-    <p class="my-4 text-center text-2xl sm:text-4xl font-bold text-[var(--shell-text)]">
+    <p class="my-4 text-center text-2xl text-[var(--shell-text)] font-bold sm:text-4xl">
       Board <span
         id="main-title"
         class="typer text-emerald-500 dark:text-emerald-400" data-words="Game Helper,Assistant,Another Gamer,_(:зゝ∠)_" data-delay="100"

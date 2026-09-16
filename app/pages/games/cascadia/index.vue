@@ -1,11 +1,11 @@
 <script setup>
-definePageMeta({ layout: 'game' })
-
 import { ElMessage } from 'element-plus'
 import { computed, onMounted, ref } from 'vue'
 import CascadiaHistoryViewer from '~/components/tools/CascadiaHistoryViewer.vue'
 import PlayerNameEditor from '~/components/tools/PlayerNameEditor.vue'
 import { useIndexedDB } from '~/composables/useIndexedDB'
+
+definePageMeta({ layout: 'game' })
 
 const ANIMALS = {
   BEAR: { name: '곰', color: '#4C3228' },

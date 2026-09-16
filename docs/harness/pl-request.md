@@ -8,26 +8,32 @@ PL은 직접 대량 구현하지 않고 계약·검수·통합을 책임진다.
 
 > 이 표는 **누적 기록**이다 — 끝난 lane도 "그때 그 파일을 누가 소유했나"를 남기려고 지우지 않는다.
 
-| lane | 영역 | 소유 |
-|---|---|---|
-| `s1` | `app/types/` · `app/constants/` — 타입·enum·네비게이션/메타 상수 | 공유 계약 |
-| `c1` | `app/composables/` — IndexedDB·로거·유틸·pinia 스토어(게임 무관 인프라) | 공통 인프라 |
-| `l1` | `app/layouts/` · `app/components/layout/` · `app/assets/scss/` · `app/app.vue` | 앱 셸·테마 |
-| `t1` | `app/components/tools/` 공용(Calculator·NumberPad·NumberSetter·ColorSelector·UnitSelector) | 공용 툴 컴포넌트 |
-| `g1` | `app/pages/games/rich/` + `components/tools/FinancialStatement/` + `types/Rich*` + `composables/data/rich.ts` | 부자만들기 |
-| `g2` | `app/pages/games/hanabi/` + `components/HanabiCard*.vue` + `types/HanabiTypes.ts` | 하나비 |
-| `g3` | `app/pages/games/fantasy-kingdom/` | 판타지 왕국 |
-| `g4` | `app/pages/games/seven-wonders-duel/` | 세븐 원더스 듀얼 |
-| `g5` | `app/pages/games/cascadia/` + `components/tools/CascadiaHistoryViewer.vue` | 카스카디아 |
-| `p1` | `app/pages/index.vue` · `about.vue` · `[...all].vue` — 게임 외 페이지 | 일반 페이지 |
-| `x1` | `nuxt.config.ts` · `uno.config.ts` · `eslint.config.js` · `netlify.toml` · `Dockerfile` · `package.json` | 빌드·배포 설정 |
+| lane | 영역                                                                                                          | 소유             |
+| ---- | ------------------------------------------------------------------------------------------------------------- | ---------------- |
+| `s1` | `app/types/` · `app/constants/` — 타입·enum·네비게이션/메타 상수                                              | 공유 계약        |
+| `c1` | `app/composables/` — IndexedDB·로거·유틸·pinia 스토어(게임 무관 인프라)                                       | 공통 인프라      |
+| `l1` | `app/layouts/` · `app/components/layout/` · `app/assets/scss/` · `app/app.vue`                                | 앱 셸·테마       |
+| `t1` | `app/components/tools/` 공용(Calculator·NumberPad·NumberSetter·ColorSelector·UnitSelector)                    | 공용 툴 컴포넌트 |
+| `g1` | `app/pages/games/rich/` + `components/tools/FinancialStatement/` + `types/Rich*` + `composables/data/rich.ts` | 부자만들기       |
+| `g2` | `app/pages/games/hanabi/` + `components/HanabiCard*.vue` + `types/HanabiTypes.ts`                             | 하나비           |
+| `g3` | `app/pages/games/fantasy-kingdom/`                                                                            | 판타지 왕국      |
+| `g4` | `app/pages/games/seven-wonders-duel/`                                                                         | 세븐 원더스 듀얼 |
+| `g5` | `app/pages/games/cascadia/` + `components/tools/CascadiaHistoryViewer.vue`                                    | 카스카디아       |
+| `p1` | `app/pages/index.vue` · `about.vue` · `[...all].vue` — 게임 외 페이지                                         | 일반 페이지      |
+| `x1` | `nuxt.config.ts` · `uno.config.ts` · `eslint.config.js` · `netlify.toml` · `Dockerfile` · `package.json`      | 빌드·배포 설정   |
 
 ### 진행 기록
 
-| lane | 작업 | 상태 |
-|---|---|---|
-| `l1` | 앱 셸 레이아웃 개편(AppHeader/AppFooter/AppNavDrawer 분리, `game` 레이아웃, `shell.scss`) | 완료 `refactor/app-shell-layout` |
-| `x1` | lint 61건 · typecheck 8건 기존 부채 정리 | 대기 |
+| lane                     | 작업                                                                                          | 상태                             |
+| ------------------------ | --------------------------------------------------------------------------------------------- | -------------------------------- |
+| `l1`                     | 앱 셸 레이아웃 개편(AppHeader/AppFooter/AppNavDrawer 분리, `game` 레이아웃, `shell.scss`)     | 완료 `refactor/app-shell-layout` |
+| `x1`                     | `@vueuse/sound` TS7016 2건 — ambient d.ts 보정                                                | 완료 `chore/x1-lint-typecheck`   |
+| `g1`                     | rich TS2532 4건 · `no-alert`(라우터 가드) · FinancialStatement lint                           | 완료 `chore/x1-lint-typecheck`   |
+| `g2`                     | 하나비 TS2345 2건(`StyleValue` 좁히기) · lint                                                 | 완료 `chore/x1-lint-typecheck`   |
+| `g4`                     | 세븐원더스 lint                                                                               | 완료 `chore/x1-lint-typecheck`   |
+| `g3`·`g5`·`l1`·`p1`·`c1` | 포맷팅 부채(PL 직접 `eslint --fix`)                                                           | 완료 `chore/x1-lint-typecheck`   |
+| `s1`                     | `HanabiTypes.PopoverItem.style?: object` → `CSSProperties`(g2의 `buttonStyle` 헬퍼 제거 가능) | 대기                             |
+| `g2`                     | `HanabiCard.vue` scoped CSS hex 하드코딩 · 다크모드 미대응                                    | 대기                             |
 
 ### 선후 관계
 
@@ -65,13 +71,15 @@ PL은 직접 대량 구현하지 않고 계약·검수·통합을 책임진다.
 - 서브 보고를 그대로 믿지 않는다. PL이 실제로 아래를 돌려 재확인한다.
 
   ```bash
-  pnpm lint
+  CI=true pnpm lint      # CI=true 필수 — 없으면 에디터 감지로 unused-imports 등 일부 규칙이 꺼진다
   pnpm typecheck
   pnpm generate   # prerender 까지 통과해야 완료 (현재 통과 중 — 깨뜨리면 반려)
   ```
 
-- `lint`/`typecheck` 는 **기존 부채가 남아 있다**(baseline 은 `nuxt-standards.md` 참고).
-  새 작업은 그 수치를 늘리지 않고, 만진 파일은 깨끗하게 만든다.
+- **2026-09-16 부로 세 관문 모두 0건이다.** baseline 은 이제 "늘리지 않기"가 아니라 **0 유지**다.
+- **서브 agent 에게 `pnpm generate` 를 금지한다**(`.output/` 동시 쓰기 충돌). PL 이 통합 때 한 번만 돌린다.
+  agent 에게는 `CI=true pnpm exec eslint <자기 파일>` 로 범위를 좁혀 돌리게 한다.
+- `pnpm generate` 는 `.nuxt/` 를 dev 서버와 공유한다. 통합 검증 중 dev 서버가 떠 있었다면 재시작한다.
 
 - 자동 테스트 러너는 아직 없다. 비자명한 점수 계산 로직은 순수 함수로 빼고,
   최소한 `pnpm dev` 로 해당 화면을 직접 눌러 확인한 결과를 보고에 쓴다.

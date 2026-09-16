@@ -210,7 +210,9 @@ onUnmounted(() => {
   font-size: 0.95rem;
   color: var(--shell-text-muted);
   text-decoration: none;
-  transition: background-color 0.15s, color 0.15s;
+  transition:
+    background-color 0.15s,
+    color 0.15s;
 }
 
 .nav-drawer-link:hover {

@@ -1,7 +1,7 @@
 <script setup>
-definePageMeta({ layout: 'game' })
-
 import { User } from '@element-plus/icons-vue'
+
+definePageMeta({ layout: 'game' })
 
 // 카드 종류별 상수 정의
 const CARD_TYPES = {

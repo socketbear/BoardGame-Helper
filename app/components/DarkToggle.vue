@@ -37,7 +37,9 @@ function toggleDark() {
   background: transparent;
   color: var(--shell-text-muted);
   cursor: pointer;
-  transition: background-color 0.15s, color 0.15s;
+  transition:
+    background-color 0.15s,
+    color 0.15s;
 }
 
 .dark-toggle:hover {

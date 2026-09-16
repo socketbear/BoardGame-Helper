@@ -56,14 +56,15 @@ pnpm typecheck  # vue-tsc --noEmit
 pnpm generate   # prerender 통과까지
 ```
 
-### 현재 baseline (2026-09-16 측정)
+### 현재 baseline (2026-09-16 갱신)
 
-- `pnpm generate` — **통과** (11 routes prerender). 이건 깨뜨리면 안 되는 선이다.
-- `pnpm lint` — 61 errors / 16 warnings (대부분 `--fix` 가능). **기존 부채.**
-- `pnpm typecheck` — 8 errors (`@vueuse/sound` 타입 해석 실패, `rich/index.vue` undefined 접근). **기존 부채.**
+- `CI=true pnpm lint` — **0건**
+- `pnpm typecheck` — **0건**
+- `pnpm generate` — **통과** (11 routes prerender)
 
-규칙: 새 작업은 **baseline 수치를 늘리지 않는다.** 만진 파일의 lint/type 에러는 그 lane에서 정리한다.
-전체 청소는 `x1` lane 계약서로 따로 처리한다.
+규칙: 세 관문 모두 **0 유지**다. 새 작업이 하나라도 늘리면 반려.
+`CI=true` 를 빼면 `@antfu/eslint-config` 가 에디터 환경을 감지해 `unused-imports/no-unused-imports`
+같은 규칙을 **끈 채로 통과**시킨다. 검증은 반드시 `CI=true` 로 돌린다.
 
 자동 테스트 러너는 없다. 비자명 로직은 순수 함수로 분리하고, 화면 확인 결과를 보고에 적는다.
 테스트 러너 도입이 필요해지면 `x1` lane 계약서로 처리한다 — 미리 깔지 않는다.
