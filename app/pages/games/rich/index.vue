@@ -1,4 +1,6 @@
 <script setup lang="ts">
+definePageMeta({ layout: 'game' })
+
 import type { avatar, IHistory, IPopupState } from '~/types/RichTypes'
 import { useSound } from '@vueuse/sound'
 import Calculator from '~/components/tools/Calculator.vue'

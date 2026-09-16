@@ -1,4 +1,6 @@
 <script setup lang="ts">
+definePageMeta({ layout: 'game' })
+
 const title = '하나비'
 
 const cardCount = ref(5)

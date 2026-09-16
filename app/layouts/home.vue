@@ -1,9 +1,26 @@
 <template>
-  <main class="px-10 py-20 text-center">
-    <slot />
-    <Footer />
-    <div class="mx-auto mt-5 text-center text-sm opacity-25">
-      [Home Layout]
-    </div>
-  </main>
+  <div class="home-shell">
+    <main class="home-shell__main">
+      <slot />
+    </main>
+    <LayoutAppFooter />
+  </div>
 </template>
+
+<style scoped>
+.home-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+.home-shell__main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+}
+</style>

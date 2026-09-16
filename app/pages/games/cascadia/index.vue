@@ -1,4 +1,6 @@
 <script setup>
+definePageMeta({ layout: 'game' })
+
 import { ElMessage } from 'element-plus'
 import { computed, onMounted, ref } from 'vue'
 import CascadiaHistoryViewer from '~/components/tools/CascadiaHistoryViewer.vue'

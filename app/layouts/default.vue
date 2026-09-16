@@ -1,10 +1,24 @@
 <template>
-  <main class="h-full flex flex-col overflow-y-auto text-center">
-    <Header />
-    <slot />
-    <Footer />
-    <div class="mx-auto mt-5 text-center text-sm opacity-25">
-      [Default Layout]
-    </div>
-  </main>
+  <div class="app-shell">
+    <LayoutAppHeader />
+    <main class="app-shell__main">
+      <slot />
+    </main>
+    <LayoutAppFooter />
+  </div>
 </template>
+
+<style scoped>
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+.app-shell__main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+</style>

@@ -1,4 +1,6 @@
 <script setup>
+definePageMeta({ layout: 'game' })
+
 import { User } from '@element-plus/icons-vue'
 
 const player1Name = ref('')
