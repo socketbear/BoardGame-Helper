@@ -42,6 +42,7 @@ PL은 직접 대량 구현하지 않고 계약·검수·통합을 책임진다.
 | `m1`~`m4`·`t2`           | 범용 머니 보드(`/tools/money-board`) — 화살표 송금·잔액 변경·단건 롤백                                 | 완료 `feat/money-board`          |
 | `x1`                     | 재사용 `Calculator.vue` 의 `bg-white` 하드코딩 — 다크모드에서 계산기만 밝음(부자만들기·머니 보드 공통) | 대기                             |
 | `m2`                     | 머니 보드 UX 보강 — 반응형 2열+·최대 18rem, 게임형 화살표(중앙→손가락), 금액 카운트 애니메이션         | 완료 `feat/money-board`          |
+| `m1`~`m4`·`t2`           | 머니 보드 2차 — 단위 선택(기본 만원)·금액 자동 축소·취소를 거래로 쌓기(취소의 취소)·확인창 z-index     | 완료 `feat/money-board`          |
 
 ### 선후 관계
 
@@ -92,6 +93,7 @@ PL은 직접 대량 구현하지 않고 계약·검수·통합을 책임진다.
 - 자동 테스트 러너는 아직 없다. 비자명한 점수 계산 로직은 순수 함수로 빼고,
   최소한 `pnpm dev` 로 해당 화면을 직접 눌러 확인한 결과를 보고에 쓴다.
   (테스트 러너가 필요해지면 그때 `x1` lane에서 도입한다 — 미리 깔지 않는다.)
+- **`ElMessageBox`/`ElMessage` 등 함수형 호출은 `getCurrentInstance()?.appContext` 를 마지막 인자로 넘긴다.** `@element-plus/nuxt` 가 앱에 z-index 카운터를 따로 주입해서, 안 넘기면 서랍·다이얼로그 딤 아래로 깔린다.
 - **PL 이 쓴 문서(계약서·하네스)도 lint 대상이다.** 마크다운 표·코드블록이 prettier 규칙에 걸린다. 계약서 발급 직후 `CI=true pnpm lint --fix` 를 돌린다.
 - `.output/`·`.nuxt/`·`dist/`·`.DS_Store` 커밋 금지.
 - 커밋 규칙은 [`commit-message.md`](./commit-message.md), 코드 표준은 [`nuxt-standards.md`](./nuxt-standards.md).
