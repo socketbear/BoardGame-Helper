@@ -35,18 +35,37 @@ export function makeSet(actors: MoneyActor[], actorId: string, amount: number, i
   return { id, timestamp: now, type: 'set', toId: actorId, amount, deltas, prevBalance }
 }
 
-/** 거래의 deltas 를 부호 반전해 재적용한다. 이미 취소된 거래면 false. */
-export function revertTx(actors: MoneyActor[], tx: MoneyTx, now: Date): boolean {
-  if (tx.revertedAt)
-    return false
-  if (tx.type === 'set' && Object.keys(tx.deltas).length === 0 && tx.prevBalance !== undefined) {
-    const actor = actors.find(a => a.id === tx.toId)
-    if (actor)
-      actor.balance = tx.prevBalance
+/**
+ * 대상 거래를 취소하는 새 `revert` 거래를 만들어 적용한다. 대상은 `revertedById` 만 찍힌다.
+ * 대상 deltas 가 있으면 부호 반전 적용, 비었으면 `toId` 를 대상 `prevBalance` 로 복원
+ * (새 거래는 deltas 를 비우고 복원 직전 잔액을 prevBalance 로 남겨 다시 취소할 수 있게 한다).
+ * 이미 취소된 거래면 undefined.
+ */
+export function revertTx(actors: MoneyActor[], target: MoneyTx, id: string, now: Date): MoneyTx | undefined {
+  if (target.revertedById)
+    return undefined
+  const actor = actors.find(a => a.id === target.toId)
+  const prevBalance = actor?.balance
+  const restore = Object.keys(target.deltas).length === 0
+  const deltas: Record<string, number> = {}
+  if (!restore) {
+    for (const [actorId, delta] of Object.entries(target.deltas))
+      deltas[actorId] = -delta
+    applyDeltas(actors, deltas, 1)
   }
-  else {
-    applyDeltas(actors, tx.deltas, -1)
+  else if (actor && target.prevBalance !== undefined) {
+    actor.balance = target.prevBalance
   }
-  tx.revertedAt = now
-  return true
+  target.revertedById = id
+  return {
+    id,
+    timestamp: now,
+    type: 'revert',
+    fromId: target.fromId,
+    toId: target.toId,
+    amount: target.amount,
+    deltas,
+    prevBalance,
+    revertOfId: target.id,
+  }
 }

@@ -29,9 +29,12 @@ export default function useMoneyBoard() {
     return tx
   }
 
-  function revert(txId: string): boolean {
-    const tx = histories.value.find(t => t.id === txId)
-    return tx ? revertTx(actors.value, tx, new Date()) : false
+  function revert(txId: string): MoneyTx | undefined {
+    const target = histories.value.find(t => t.id === txId)
+    const tx = target && revertTx(actors.value, target, getUniqueId(), new Date())
+    if (tx)
+      histories.value.unshift(tx)
+    return tx
   }
 
   function reset() {

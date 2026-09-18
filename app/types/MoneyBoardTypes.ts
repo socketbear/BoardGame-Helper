@@ -14,11 +14,14 @@ export interface MoneyActor {
   isBank: boolean
 }
 
-/** transfer = A가 B에게 보냄 · set = 자기 자신 잔액을 새 값으로 덮어씀 */
-export type MoneyTxType = 'transfer' | 'set'
+/**
+ * transfer = A가 B에게 보냄 · set = 자기 자신 잔액을 새 값으로 덮어씀
+ * revert = 다른 거래(revert 포함)를 취소한 거래. 취소도 기록에 쌓이고 다시 취소할 수 있다.
+ */
+export type MoneyTxType = 'transfer' | 'set' | 'revert'
 
 /**
- * 거래 한 건.
+ * 거래 한 건. 기록은 **추가만** 된다 — 취소도 지우거나 고치지 않고 새 `revert` 거래로 쌓는다.
  *
  * 롤백은 `deltas` 의 **부호를 뒤집어 다시 적용**하는 방식이다.
  * "그 시점 잔액으로 되돌리기"가 아니라 "이 거래의 증감만 상쇄"하는 것이라
@@ -29,11 +32,11 @@ export interface MoneyTx {
   id: string
   timestamp: Date
   type: MoneyTxType
-  /** transfer 일 때 보낸 쪽. set 이면 없음. */
+  /** transfer 일 때 보낸 쪽. set 이면 없음. revert 는 취소 대상 거래의 값을 그대로 복사(표시용). */
   fromId?: string
-  /** 받는 쪽(transfer) 또는 잔액을 바꾼 대상(set). */
+  /** 받는 쪽(transfer) 또는 잔액을 바꾼 대상(set). revert 는 취소 대상 거래의 값을 그대로 복사. */
   toId: string
-  /** 화면 표시용. transfer = 이동 금액, set = 변경 후 잔액. */
+  /** 화면 표시용. transfer = 이동 금액, set = 변경 후 잔액. revert 는 취소 대상 거래의 값을 그대로 복사. */
   amount: number
   /**
    * actorId → 잔액 증감. 롤백은 이 값의 부호를 뒤집어 재적용한다.
@@ -41,12 +44,17 @@ export interface MoneyTx {
    */
   deltas: Record<string, number>
   /**
-   * set 거래에서 이전 잔액. 이전 값이나 새 값이 무한대(∞ ↔ 유한)라 `deltas` 로 되돌릴 수 없는
-   * 경우에만 롤백에 쓰인다(∞ − ∞ = NaN 회피). 이때 롤백은 "이 잔액으로 복원"이 된다.
+   * 이 거래 직전 `toId` 의 잔액. `deltas` 가 비어 있으면(∞ ↔ 유한 전환이라 증감으로 표현 불가,
+   * ∞ − ∞ = NaN 회피) 롤백은 "이 잔액으로 복원"이 된다. revert 거래도 같은 규칙을 따른다.
    */
   prevBalance?: number
-  /** 취소된 시각. 있으면 이미 취소된 거래이므로 다시 취소할 수 없다. */
-  revertedAt?: Date
+  /** revert 거래일 때 취소 대상 거래의 id. */
+  revertOfId?: string
+  /**
+   * 이 거래를 취소한 revert 거래의 id. 있으면 이미 취소됐으므로 이 거래는 다시 취소할 수 없다 —
+   * 되살리려면 그 revert 거래를 취소한다. 한 흐름에서 취소 가능한 건 항상 가장 최근 것 하나다.
+   */
+  revertedById?: string
 }
 
 /** 화살표 한 줄이 가리키는 좌표(보드 컨테이너 기준). */
