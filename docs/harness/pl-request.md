@@ -8,32 +8,39 @@ PL은 직접 대량 구현하지 않고 계약·검수·통합을 책임진다.
 
 > 이 표는 **누적 기록**이다 — 끝난 lane도 "그때 그 파일을 누가 소유했나"를 남기려고 지우지 않는다.
 
-| lane | 영역                                                                                                          | 소유             |
-| ---- | ------------------------------------------------------------------------------------------------------------- | ---------------- |
-| `s1` | `app/types/` · `app/constants/` — 타입·enum·네비게이션/메타 상수                                              | 공유 계약        |
-| `c1` | `app/composables/` — IndexedDB·로거·유틸·pinia 스토어(게임 무관 인프라)                                       | 공통 인프라      |
-| `l1` | `app/layouts/` · `app/components/layout/` · `app/assets/scss/` · `app/app.vue`                                | 앱 셸·테마       |
-| `t1` | `app/components/tools/` 공용(Calculator·NumberPad·NumberSetter·ColorSelector·UnitSelector)                    | 공용 툴 컴포넌트 |
-| `g1` | `app/pages/games/rich/` + `components/tools/FinancialStatement/` + `types/Rich*` + `composables/data/rich.ts` | 부자만들기       |
-| `g2` | `app/pages/games/hanabi/` + `components/HanabiCard*.vue` + `types/HanabiTypes.ts`                             | 하나비           |
-| `g3` | `app/pages/games/fantasy-kingdom/`                                                                            | 판타지 왕국      |
-| `g4` | `app/pages/games/seven-wonders-duel/`                                                                         | 세븐 원더스 듀얼 |
-| `g5` | `app/pages/games/cascadia/` + `components/tools/CascadiaHistoryViewer.vue`                                    | 카스카디아       |
-| `p1` | `app/pages/index.vue` · `about.vue` · `[...all].vue` — 게임 외 페이지                                         | 일반 페이지      |
-| `x1` | `nuxt.config.ts` · `uno.config.ts` · `eslint.config.js` · `netlify.toml` · `Dockerfile` · `package.json`      | 빌드·배포 설정   |
+| lane | 영역                                                                                                          | 소유                       |
+| ---- | ------------------------------------------------------------------------------------------------------------- | -------------------------- |
+| `s1` | `app/types/` · `app/constants/` — 타입·enum·네비게이션/메타 상수                                              | 공유 계약                  |
+| `c1` | `app/composables/` — IndexedDB·로거·유틸·pinia 스토어(게임 무관 인프라)                                       | 공통 인프라                |
+| `l1` | `app/layouts/` · `app/components/layout/` · `app/assets/scss/` · `app/app.vue`                                | 앱 셸·테마                 |
+| `t1` | `app/components/tools/` 공용(Calculator·NumberPad·NumberSetter·ColorSelector·UnitSelector)                    | 공용 툴 컴포넌트           |
+| `g1` | `app/pages/games/rich/` + `components/tools/FinancialStatement/` + `types/Rich*` + `composables/data/rich.ts` | 부자만들기                 |
+| `g2` | `app/pages/games/hanabi/` + `components/HanabiCard*.vue` + `types/HanabiTypes.ts`                             | 하나비                     |
+| `g3` | `app/pages/games/fantasy-kingdom/`                                                                            | 판타지 왕국                |
+| `g4` | `app/pages/games/seven-wonders-duel/`                                                                         | 세븐 원더스 듀얼           |
+| `g5` | `app/pages/games/cascadia/` + `components/tools/CascadiaHistoryViewer.vue`                                    | 카스카디아                 |
+| `p1` | `app/pages/index.vue` · `about.vue` · `[...all].vue` — 게임 외 페이지                                         | 일반 페이지                |
+| `x1` | `nuxt.config.ts` · `uno.config.ts` · `eslint.config.js` · `netlify.toml` · `Dockerfile` · `package.json`      | 빌드·배포 설정             |
+| `m1` | `app/utils/moneyLedger.ts` · `app/composables/useMoneyBoard.ts` · `test/moneyLedger.check.mjs`                | 머니 보드 엔진(거래·롤백)  |
+| `m2` | `app/components/money-board/MoneyBoard.vue` · `MoneyBox.vue`                                                  | 머니 보드 화살표 드래그    |
+| `m3` | `app/components/money-board/MoneyBoardSetup.vue` · `AmountDialog.vue`                                         | 머니 보드 설정·금액 입력   |
+| `m4` | `app/components/money-board/HistoryPanel.vue`                                                                 | 머니 보드 히스토리·롤백    |
+| `t2` | `app/pages/tools/` · `app/types/MoneyBoardTypes.ts` (PL 직접)                                                 | 범용 도구 페이지·타입 계약 |
 
 ### 진행 기록
 
-| lane                     | 작업                                                                                          | 상태                             |
-| ------------------------ | --------------------------------------------------------------------------------------------- | -------------------------------- |
-| `l1`                     | 앱 셸 레이아웃 개편(AppHeader/AppFooter/AppNavDrawer 분리, `game` 레이아웃, `shell.scss`)     | 완료 `refactor/app-shell-layout` |
-| `x1`                     | `@vueuse/sound` TS7016 2건 — ambient d.ts 보정                                                | 완료 `chore/x1-lint-typecheck`   |
-| `g1`                     | rich TS2532 4건 · `no-alert`(라우터 가드) · FinancialStatement lint                           | 완료 `chore/x1-lint-typecheck`   |
-| `g2`                     | 하나비 TS2345 2건(`StyleValue` 좁히기) · lint                                                 | 완료 `chore/x1-lint-typecheck`   |
-| `g4`                     | 세븐원더스 lint                                                                               | 완료 `chore/x1-lint-typecheck`   |
-| `g3`·`g5`·`l1`·`p1`·`c1` | 포맷팅 부채(PL 직접 `eslint --fix`)                                                           | 완료 `chore/x1-lint-typecheck`   |
-| `s1`                     | `HanabiTypes.PopoverItem.style?: object` → `CSSProperties`(g2의 `buttonStyle` 헬퍼 제거 가능) | 대기                             |
-| `g2`                     | `HanabiCard.vue` scoped CSS hex 하드코딩 · 다크모드 미대응                                    | 대기                             |
+| lane                     | 작업                                                                                                   | 상태                             |
+| ------------------------ | ------------------------------------------------------------------------------------------------------ | -------------------------------- |
+| `l1`                     | 앱 셸 레이아웃 개편(AppHeader/AppFooter/AppNavDrawer 분리, `game` 레이아웃, `shell.scss`)              | 완료 `refactor/app-shell-layout` |
+| `x1`                     | `@vueuse/sound` TS7016 2건 — ambient d.ts 보정                                                         | 완료 `chore/x1-lint-typecheck`   |
+| `g1`                     | rich TS2532 4건 · `no-alert`(라우터 가드) · FinancialStatement lint                                    | 완료 `chore/x1-lint-typecheck`   |
+| `g2`                     | 하나비 TS2345 2건(`StyleValue` 좁히기) · lint                                                          | 완료 `chore/x1-lint-typecheck`   |
+| `g4`                     | 세븐원더스 lint                                                                                        | 완료 `chore/x1-lint-typecheck`   |
+| `g3`·`g5`·`l1`·`p1`·`c1` | 포맷팅 부채(PL 직접 `eslint --fix`)                                                                    | 완료 `chore/x1-lint-typecheck`   |
+| `s1`                     | `HanabiTypes.PopoverItem.style?: object` → `CSSProperties`(g2의 `buttonStyle` 헬퍼 제거 가능)          | 대기                             |
+| `g2`                     | `HanabiCard.vue` scoped CSS hex 하드코딩 · 다크모드 미대응                                             | 대기                             |
+| `m1`~`m4`·`t2`           | 범용 머니 보드(`/tools/money-board`) — 화살표 송금·잔액 변경·단건 롤백                                 | 완료 `feat/money-board`          |
+| `x1`                     | 재사용 `Calculator.vue` 의 `bg-white` 하드코딩 — 다크모드에서 계산기만 밝음(부자만들기·머니 보드 공통) | 대기                             |
 
 ### 선후 관계
 
@@ -84,6 +91,7 @@ PL은 직접 대량 구현하지 않고 계약·검수·통합을 책임진다.
 - 자동 테스트 러너는 아직 없다. 비자명한 점수 계산 로직은 순수 함수로 빼고,
   최소한 `pnpm dev` 로 해당 화면을 직접 눌러 확인한 결과를 보고에 쓴다.
   (테스트 러너가 필요해지면 그때 `x1` lane에서 도입한다 — 미리 깔지 않는다.)
+- **PL 이 쓴 문서(계약서·하네스)도 lint 대상이다.** 마크다운 표·코드블록이 prettier 규칙에 걸린다. 계약서 발급 직후 `CI=true pnpm lint --fix` 를 돌린다.
 - `.output/`·`.nuxt/`·`dist/`·`.DS_Store` 커밋 금지.
 - 커밋 규칙은 [`commit-message.md`](./commit-message.md), 코드 표준은 [`nuxt-standards.md`](./nuxt-standards.md).
 
