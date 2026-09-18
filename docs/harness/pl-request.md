@@ -41,6 +41,7 @@ PL은 직접 대량 구현하지 않고 계약·검수·통합을 책임진다.
 | `g2`                     | `HanabiCard.vue` scoped CSS hex 하드코딩 · 다크모드 미대응                                             | 대기                             |
 | `m1`~`m4`·`t2`           | 범용 머니 보드(`/tools/money-board`) — 화살표 송금·잔액 변경·단건 롤백                                 | 완료 `feat/money-board`          |
 | `x1`                     | 재사용 `Calculator.vue` 의 `bg-white` 하드코딩 — 다크모드에서 계산기만 밝음(부자만들기·머니 보드 공통) | 대기                             |
+| `m2`                     | 머니 보드 UX 보강 — 반응형 2열+·최대 18rem, 게임형 화살표(중앙→손가락), 금액 카운트 애니메이션         | 완료 `feat/money-board`          |
 
 ### 선후 관계
 
