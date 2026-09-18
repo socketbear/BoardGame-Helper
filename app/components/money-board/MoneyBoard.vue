@@ -11,18 +11,21 @@ const emit = defineEmits<{
   (event: 'select', actorId: string): void
 }>()
 
-/** 네모의 중심과 반폭·반높이(보드 컨테이너 기준) */
-interface BoxRect {
-  cx: number
-  cy: number
-  hw: number
-  hh: number
-}
-
 /** 이 거리(px) 미만으로 움직이고 떼면 탭 */
 const TAP_THRESHOLD = 8
 /** 곡선이 휘는 정도: 두 점 거리 대비 수직 오프셋 비율 */
 const BEND_RATIO = 0.25
+/** 화살촉 길이(끝점 → 밑변 중앙)와 밑변 폭(px) */
+const HEAD_LENGTH = 44
+const HEAD_WIDTH = 44
+/** 몸통을 화살촉 끝에서 이만큼 앞에서 끊는다. 둥근 끝이 화살촉 밖으로 삐져나오지 않게 화살촉 안쪽에서 끝난다. */
+const BODY_TRIM = HEAD_LENGTH / 2
+
+/** 화살표 한 벌: 몸통 path d 와 화살촉 polygon points */
+interface ArrowShape {
+  body: string
+  head: string
+}
 
 /**
  * 2차 베지어 제어점. 두 점의 중점에서 진행 방향의 왼쪽 수직으로 거리 × BEND_RATIO 만큼 민다.
@@ -39,40 +42,45 @@ function controlPoint(from: ArrowPoint, to: ArrowPoint): ArrowPoint {
   return { x: mid.x - dy * BEND_RATIO, y: mid.y + dx * BEND_RATIO }
 }
 
-/**
- * 사각형 중심에서 `toward` 방향으로 쏜 반직선이 사각형 테두리와 만나는 점.
- * t = min(hw/|dx|, hh/|dy|) — 먼저 닿는 변까지의 비율.
- */
-function rectEdgePoint(rect: BoxRect, toward: ArrowPoint): ArrowPoint {
-  const dx = toward.x - rect.cx
-  const dy = toward.y - rect.cy
-  if (dx === 0 && dy === 0)
-    return { x: rect.cx, y: rect.cy }
-  const t = Math.min(
-    dx === 0 ? Infinity : rect.hw / Math.abs(dx),
-    dy === 0 ? Infinity : rect.hh / Math.abs(dy),
-  )
-  return { x: rect.cx + dx * t, y: rect.cy + dy * t }
-}
-
-function isInside(rect: BoxRect, p: ArrowPoint): boolean {
-  return Math.abs(p.x - rect.cx) <= rect.hw && Math.abs(p.y - rect.cy) <= rect.hh
+function lerp(a: ArrowPoint, b: ArrowPoint, t: number): ArrowPoint {
+  return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t }
 }
 
 /**
- * 화살표 SVG path. 대상 네모가 있으면 대상 중심 기준으로 제어점을 잡고,
- * 끝점을 "대상 중심 → 제어점" 반직선과 테두리의 교점으로 옮긴다.
- * 끝 접선(제어점 → 끝점)이 대상 중심을 향하므로 화살촉이 네모 쪽을 똑바로 가리킨다.
- * 출발도 같은 방식으로 출발 네모 테두리에서 시작해 선이 네모 글자 위를 지나가지 않게 한다.
- * 포인터가 아직 출발 네모 안이면 테두리가 포인터보다 멀어 선이 뒤로 꺾이므로 그때만 중심에서 출발한다.
+ * 출발 = 누른 네모 중앙, 끝 = 포인터 위치인 곡선 화살표.
+ *
+ * - 끝 접선 방향 u = (끝 − 제어점)/|끝 − 제어점| (2차 베지어 B'(1) = 2(P − C)).
+ * - 화살촉 삼각형: 꼭짓점 = 포인터, 밑변 중앙 = 포인터 − u·HEAD_LENGTH, 양 끝 = 밑변 중앙 ± n·HEAD_WIDTH/2 (n = u 의 수직).
+ * - 몸통: 곡선을 t 에서 잘라(de Casteljau) 앞부분만 그린다. 끝 부근 속력 |B'(1)| = 2|P − C| 로
+ *   t ≈ 1 − BODY_TRIM / (2|P − C|) 를 잡으면 몸통 끝이 포인터에서 약 BODY_TRIM 앞, 화살촉 안쪽에 온다.
+ *   포인터가 출발점에 너무 가까워 잘라 낼 몸통이 없으면 화살촉만 그린다.
+ *
+ * 출발점과 포인터가 같으면 방향이 없으므로 null.
  */
-function arrowPath(source: BoxRect, pointer: ArrowPoint, target: BoxRect | null): string {
-  const center = { x: source.cx, y: source.cy }
-  const aim = target ? { x: target.cx, y: target.cy } : pointer
-  const ctrl = controlPoint(center, aim)
-  const start = isInside(source, pointer) ? center : rectEdgePoint(source, ctrl)
-  const end = target ? rectEdgePoint(target, ctrl) : pointer
-  return `M ${start.x} ${start.y} Q ${ctrl.x} ${ctrl.y} ${end.x} ${end.y}`
+function arrowShape(start: ArrowPoint, end: ArrowPoint): ArrowShape | null {
+  const ctrl = controlPoint(start, end)
+  const tx = end.x - ctrl.x
+  const ty = end.y - ctrl.y
+  const tLen = Math.hypot(tx, ty)
+  if (tLen === 0)
+    return null
+  const u = { x: tx / tLen, y: ty / tLen }
+  const n = { x: -u.y, y: u.x }
+  const base = { x: end.x - u.x * HEAD_LENGTH, y: end.y - u.y * HEAD_LENGTH }
+  const half = HEAD_WIDTH / 2
+  const head = [
+    end,
+    { x: base.x + n.x * half, y: base.y + n.y * half },
+    { x: base.x - n.x * half, y: base.y - n.y * half },
+  ].map(p => `${p.x},${p.y}`).join(' ')
+
+  const t = 1 - BODY_TRIM / (2 * tLen)
+  if (t <= 0)
+    return { body: '', head }
+  // de Casteljau 로 [0, t] 구간만 남긴 2차 베지어: 제어점 = lerp(S, C, t), 끝 = B(t)
+  const c1 = lerp(start, ctrl, t)
+  const bodyEnd = lerp(c1, lerp(ctrl, end, t), t)
+  return { body: `M ${start.x} ${start.y} Q ${c1.x} ${c1.y} ${bodyEnd.x} ${bodyEnd.y}`, head }
 }
 
 interface DragState {
@@ -80,8 +88,8 @@ interface DragState {
   fromId: string
   /** 드래그 시작 시 측정한 보드의 뷰포트 좌상단 */
   origin: ArrowPoint
-  /** 드래그 시작 시 측정한 모든 네모 위치 */
-  rects: Map<string, BoxRect>
+  /** 드래그 시작 시 측정한 모든 네모의 중앙(보드 좌표) */
+  centers: Map<string, ArrowPoint>
   /** 누른 지점(뷰포트 좌표) — 탭 판정용 */
   downClient: ArrowPoint
   /** 현재 포인터(보드 좌표) */
@@ -92,22 +100,14 @@ interface DragState {
 const boardRef = ref<HTMLElement | null>(null)
 const drag = ref<DragState | null>(null)
 const hoverId = ref<string | null>(null)
-const markerId = `money-arrow-head-${useId()}`
 
-const markerUrl = computed(() => `url(#${markerId})`)
-
-const arrowD = computed(() => {
+const arrow = computed(() => {
   const d = drag.value
   if (!d?.moved)
-    return ''
-  const start = d.rects.get(d.fromId)
-  if (!start)
-    return ''
-  const target = hoverId.value ? d.rects.get(hoverId.value) ?? null : null
-  return arrowPath(start, d.pointer, target)
+    return null
+  const start = d.centers.get(d.fromId)
+  return start ? arrowShape(start, d.pointer) : null
 })
-
-const showArrow = computed(() => arrowD.value !== '')
 
 const highlightedIds = computed(() => {
   const ids = new Set<string>()
@@ -118,18 +118,16 @@ const highlightedIds = computed(() => {
   return ids
 })
 
-function measureRects(board: HTMLElement, origin: ArrowPoint): Map<string, BoxRect> {
-  const rects = new Map<string, BoxRect>()
+function measureCenters(board: HTMLElement, origin: ArrowPoint): Map<string, ArrowPoint> {
+  const centers = new Map<string, ArrowPoint>()
   board.querySelectorAll<HTMLElement>('[data-actor-id]').forEach((el) => {
     const r = el.getBoundingClientRect()
-    rects.set(el.dataset.actorId!, {
-      cx: r.left - origin.x + r.width / 2,
-      cy: r.top - origin.y + r.height / 2,
-      hw: r.width / 2,
-      hh: r.height / 2,
+    centers.set(el.dataset.actorId!, {
+      x: r.left - origin.x + r.width / 2,
+      y: r.top - origin.y + r.height / 2,
     })
   })
-  return rects
+  return centers
 }
 
 /** 포인터 아래 네모 id. 이 보드 밖이거나 출발 네모 자신이면 null. */
@@ -152,7 +150,7 @@ function onPointerDown(event: PointerEvent, actorId: string) {
     pointerId: event.pointerId,
     fromId: actorId,
     origin,
-    rects: measureRects(boardRef.value, origin),
+    centers: measureCenters(boardRef.value, origin),
     downClient: { x: event.clientX, y: event.clientY },
     pointer: { x: event.clientX - origin.x, y: event.clientY - origin.y },
     moved: false,
@@ -201,7 +199,10 @@ onBeforeUnmount(endDrag)
 </script>
 
 <template>
-  <div ref="boardRef" class="relative flex flex-wrap select-none gap-4">
+  <div
+    ref="boardRef"
+    class="relative grid grid-cols-2 select-none gap-3 sm:grid-cols-[repeat(auto-fill,minmax(12rem,18rem))] sm:justify-center sm:gap-4"
+  >
     <MoneyBox
       v-for="actor in actors"
       :key="actor.id"
@@ -210,41 +211,52 @@ onBeforeUnmount(endDrag)
       @pointerdown="onPointerDown($event, actor.id)"
     />
     <svg
-      v-show="showArrow"
+      v-if="arrow"
       class="pointer-events-none absolute inset-0 z-10 h-full w-full overflow-visible"
       aria-hidden="true"
     >
-      <defs>
-        <marker
-          :id="markerId"
-          viewBox="0 0 10 10"
-          refX="8"
-          refY="5"
-          markerWidth="4"
-          markerHeight="4"
-          orient="auto"
-        >
-          <path d="M 0 0 L 10 5 L 0 10 z" class="arrow-head" />
-        </marker>
-      </defs>
-      <path
-        :d="arrowD"
-        class="arrow-line"
-        fill="none"
-        stroke-width="3.5"
-        stroke-linecap="round"
-        :marker-end="markerUrl"
-      />
+      <g class="arrow">
+        <!-- 외곽선 먼저, 색 채움을 위에: 어떤 네모 색 위에서도 윤곽이 보인다 -->
+        <path v-if="arrow.body" :d="arrow.body" class="arrow-body-outline" />
+        <polygon :points="arrow.head" class="arrow-head-outline" />
+        <path v-if="arrow.body" :d="arrow.body" class="arrow-body" />
+        <polygon :points="arrow.head" class="arrow-head" />
+      </g>
     </svg>
   </div>
 </template>
 
 <style scoped>
-.arrow-line {
-  stroke: var(--shell-accent);
+.arrow {
+  filter: drop-shadow(0 3px 4px var(--shell-overlay));
 }
 
+/* 몸통 14px + 양쪽 외곽선 4px */
+.arrow-body,
+.arrow-body-outline {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.arrow-body {
+  stroke: var(--shell-accent);
+  stroke-width: 14px;
+}
+
+.arrow-body-outline {
+  stroke: var(--shell-bg);
+  stroke-width: 22px;
+}
+
+/* 채움에는 stroke 를 두지 않는다: 꼭짓점이 포인터 좌표에 정확히 온다 */
 .arrow-head {
   fill: var(--shell-accent);
+}
+
+.arrow-head-outline {
+  stroke-linejoin: round;
+  fill: var(--shell-bg);
+  stroke: var(--shell-bg);
+  stroke-width: 10px;
 }
 </style>

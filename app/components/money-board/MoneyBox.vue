@@ -16,16 +16,21 @@ const colorClass = computed(() => {
 
 const ringClass = computed(() => highlighted ? 'ring-4 ring-teal-600 dark:ring-teal-400' : '')
 
-const balanceText = computed(() => Number.isFinite(actor.balance) ? actor.balance.toLocaleString() : '∞')
+// 무한 은행은 CountNumber 에 넘기지 않는다: gsap 가 Infinity 를 보간하면 NaN 이 된다
+const hasFiniteBalance = computed(() => Number.isFinite(actor.balance))
 </script>
 
 <template>
   <div
-    class="h-32 w-32 flex flex-col cursor-grab touch-none select-none border-4 rounded-lg p-2 transition-shadow"
+    class="aspect-[4/3] max-w-72 w-full flex flex-col cursor-grab touch-none select-none border-4 rounded-lg p-2 transition-shadow sm:p-3"
     :class="[colorClass, ringClass]"
     :data-actor-id="actor.id"
   >
-    <span class="truncate font-bold">{{ actor.name }}</span>
-    <span class="mt-auto break-all text-right">{{ balanceText }}</span>
+    <span class="truncate text-base font-bold sm:text-xl">{{ actor.name }}</span>
+    <div class="mt-auto text-right text-2xl font-bold tabular-nums sm:text-4xl">
+      <!-- 상태 소유자는 useMoneyBoard. CountNumber 는 읽기만 하므로 v-model 이 아닌 단방향 전달 -->
+      <tools-count-number v-if="hasFiniteBalance" :model-value="actor.balance" />
+      <span v-else>∞</span>
+    </div>
   </div>
 </template>
