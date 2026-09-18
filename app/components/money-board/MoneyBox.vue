@@ -54,43 +54,64 @@ const numberProbes = useTemplateRef('numberProbe')
 const unitProbe = useTemplateRef('unitProbe')
 
 const availableWidth = ref(0)
+// 기본 크기 대비 배율(최대 1). 글자 폭은 크기에 정비례하지 않으므로 선형 계산하지 않고 축소된 상태에서 다시 잰다
+const scale = ref(1)
+// 축소된 상태에서 잰 숫자 후보 최대 폭. 숫자 칸 min-width 로 쓴다
 const numberWidth = ref(0)
-const unitWidth = ref(0)
 
-// 측정용 span 은 기본 글자 크기로 그려진다. 금액·단위·네모 크기가 바뀔 때만 잰다(매 프레임 아님)
-function measure() {
-  numberWidth.value = Math.max(0, ...(numberProbes.value ?? []).map(el => el.getBoundingClientRect().width))
-  unitWidth.value = unitProbe.value?.getBoundingClientRect().width ?? 0
+// 측정용 span 은 배율이 적용된 행 안에 있어 실제 숫자·단위와 같은 글자 크기로 그려진다
+function measureNow() {
+  const number = Math.max(0, ...(numberProbes.value ?? []).map(el => el.getBoundingClientRect().width))
+  const unitPart = unitProbe.value?.getBoundingClientRect().width ?? 0
+  return { number, total: number + unitPart }
+}
+
+let fitRun = 0
+// 금액·단위·네모 크기가 바뀔 때만 호출한다(매 프레임 아님). 렌더 → 재측정을 최대 3회, 변화 < 0.5px 이면 중단
+async function fit() {
+  const run = ++fitRun
+  await nextTick()
+  for (let i = 0; i < 3; i++) {
+    if (run !== fitRun || !availableWidth.value)
+      return
+    const { number, total } = measureNow()
+    numberWidth.value = number
+    if (!total)
+      return
+    // 소수점 오차로 1px 넘치지 않게 내림
+    const next = Math.min(1, Math.floor((scale.value * availableWidth.value / total) * 1000) / 1000)
+    if (next === scale.value)
+      return
+    const deltaPx = Math.abs(next - scale.value) / scale.value * total
+    scale.value = next
+    await nextTick()
+    if (deltaPx < 0.5)
+      break
+  }
+  if (run === fitRun)
+    numberWidth.value = measureNow().number
 }
 
 useResizeObserver(amountRef, ([entry]) => {
   if (!entry)
     return
   availableWidth.value = entry.contentRect.width
-  // sm 경계에서 기본 글자 크기가 바뀌므로 크기 변화 때 다시 잰다
-  measure()
+  // sm 경계에서 기본 글자 크기가 바뀌므로 크기 변화 때 다시 맞춘다
+  fit()
 })
 
-watch([measureTexts, unit], measure, { flush: 'post' })
+watch([measureTexts, unit], fit, { flush: 'post' })
 
 onMounted(() => {
   // 마운트 때도 CountNumber 가 0 에서 굴러오므로 끝난 뒤 정리한다
   settleAfterCount()
   // 웹폰트가 늦게 오면 폭이 달라진다
-  document.fonts.ready.then(measure)
-})
-
-// 기본 크기보다 커지지 않는다(최대 1). 소수점 오차로 1px 넘치지 않게 내림
-const scale = computed(() => {
-  const total = numberWidth.value + unitWidth.value
-  if (!availableWidth.value || total <= availableWidth.value)
-    return 1
-  return Math.floor((availableWidth.value / total) * 1000) / 1000
+  document.fonts.ready.then(fit)
 })
 
 const amountStyle = computed(() => ({ fontSize: `${scale.value}em` }))
 // 숫자 칸을 가장 긴 후보 폭으로 잡아 둔다: 증감 표시(숫자 칸 폭 기준 absolute)도 이 폭 안에 들어간다
-const numberStyle = computed(() => ({ minWidth: `${numberWidth.value * scale.value}px` }))
+const numberStyle = computed(() => ({ minWidth: `${numberWidth.value}px` }))
 </script>
 
 <template>
@@ -102,18 +123,19 @@ const numberStyle = computed(() => ({ minWidth: `${numberWidth.value * scale.val
     <span class="truncate text-base font-bold sm:text-xl">{{ actor.name }}</span>
     <div ref="amount" class="relative mt-auto text-right text-2xl font-bold tabular-nums sm:text-4xl">
       <div class="flex items-baseline justify-end whitespace-nowrap" :style="amountStyle">
-        <span v-if="unitInFront">{{ unit }}</span>
-        <div :style="numberStyle">
+        <!-- 숫자·단위 칸은 눌리지 않는다: 보정이 어긋나도 겹치지 않고 행이 넘칠 뿐이다 -->
+        <span v-if="unitInFront" class="shrink-0 pr-[0.15em]">{{ unit }}</span>
+        <div class="shrink-0" :style="numberStyle">
           <!-- 상태 소유자는 useMoneyBoard. CountNumber 는 읽기만 하므로 v-model 이 아닌 단방향 전달 -->
           <tools-count-number v-if="hasFiniteBalance" :model-value="actor.balance" />
           <span v-else>∞</span>
         </div>
-        <span v-if="!unitInFront">{{ unit }}</span>
-      </div>
-      <!-- 폭 측정 전용: 보이지 않고 배치에도 영향 없음 -->
-      <div aria-hidden="true" class="invisible absolute h-0 w-0 overflow-hidden">
-        <span v-for="text in measureTexts" ref="numberProbe" :key="text" class="block w-max whitespace-nowrap">{{ text }}</span>
-        <span ref="unitProbe" class="block w-max whitespace-nowrap">{{ unit }}</span>
+        <span v-if="!unitInFront" class="shrink-0 pl-[0.15em]">{{ unit }}</span>
+        <!-- 폭 측정 전용: 행 안에 있어 축소된 글자 크기를 그대로 상속한다. 보이지 않고 배치에도 영향 없음 -->
+        <div aria-hidden="true" class="invisible absolute h-0 w-0 overflow-hidden">
+          <span v-for="text in measureTexts" ref="numberProbe" :key="text" class="block w-max whitespace-nowrap">{{ text }}</span>
+          <span ref="unitProbe" class="block w-max whitespace-nowrap px-[0.075em]">{{ unit }}</span>
+        </div>
       </div>
     </div>
   </div>
