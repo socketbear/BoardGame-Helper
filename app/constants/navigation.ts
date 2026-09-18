@@ -12,6 +12,10 @@ export const gameNavItems: NavItem[] = [
   { title: '카스카디아', path: '/games/cascadia', icon: 'i-carbon-tree' },
 ]
 
+export const toolNavItems: NavItem[] = [
+  { title: '머니 보드', path: '/tools/money-board', icon: 'i-carbon-currency' },
+]
+
 export const devNavItems: NavItem[] = [
   { title: 'Sandbox', path: '/sandbox', icon: 'i-carbon-code' },
 ]

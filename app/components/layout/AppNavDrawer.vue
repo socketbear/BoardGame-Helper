@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { devNavItems, gameNavItems } from '~/constants/navigation'
+import { devNavItems, gameNavItems, toolNavItems } from '~/constants/navigation'
 
 const open = defineModel<boolean>({ default: false })
 
@@ -74,6 +74,21 @@ onUnmounted(() => {
           </p>
           <NuxtLink
             v-for="item in gameNavItems"
+            :key="item.path"
+            :to="item.path"
+            class="nav-drawer-link"
+            :class="{ 'nav-drawer-link--active': isActive(item.path) }"
+            @click="close"
+          >
+            <div v-if="item.icon" :class="item.icon" />
+            {{ item.title }}
+          </NuxtLink>
+
+          <p class="nav-drawer-section">
+            도구
+          </p>
+          <NuxtLink
+            v-for="item in toolNavItems"
             :key="item.path"
             :to="item.path"
             class="nav-drawer-link"

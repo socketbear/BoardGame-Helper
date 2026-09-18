@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { devNavItems, gameNavItems } from '~/constants/navigation'
+import { devNavItems, gameNavItems, toolNavItems } from '~/constants/navigation'
 
 const route = useRoute()
 const drawerOpen = ref(false)
@@ -89,6 +89,17 @@ function toggleDevMenu(event: Event) {
             </NuxtLink>
           </div>
         </div>
+
+        <!-- ponytail: 도구가 하나라 드롭다운 없이 링크로 둔다. 둘 이상이면 보드게임처럼 드롭다운으로 -->
+        <NuxtLink
+          v-for="item in toolNavItems"
+          :key="item.path"
+          :to="item.path"
+          class="app-header__link"
+          :class="{ 'app-header__link--active': isActive(item.path) }"
+        >
+          {{ item.title }}
+        </NuxtLink>
 
         <NuxtLink
           to="/about"
