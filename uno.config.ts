@@ -46,5 +46,7 @@ export default defineConfig({
     ...Array.from({ length: colors.length }, (_, i) => `bg-${colors[i]}-400`),
     ...Array.from({ length: adjusts.length }, (_, i) => `bg-gray-${adjusts[i]}`),
     ...Array.from({ length: colors.length }, (_, i) => `border-${colors[i]}-600`),
+    // 네모 테두리는 bg 색의 숫자를 600 으로 바꿔 만든다(drag/Box.vue · MoneyBox.vue). 회색 은행용.
+    'border-gray-600',
   ],
 })

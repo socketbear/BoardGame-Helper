@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { IFinancial, IFinancialStatementProps, IFinancialType, IFinancialTypeList } from '~/types/RichTypes'
+import type { IFinancial, IFinancialStatementProps, IFinancialTypeList } from '~/types/RichTypes'
 import { FINANCIAL_TYPE, IN_OUT } from '~/types/RichEnums'
 
 const { title, typeList, financialId } = defineProps<IFinancialStatementProps>()
@@ -66,7 +66,7 @@ function searchType(typeList: IFinancialTypeList[], childTypeId: string) {
     worth: 0,
     inout: IN_OUT.IN,
     parentType: FINANCIAL_TYPE.PARENT_UNKNOWN,
-    childType: FINANCIAL_TYPE.CHILD_UNKNOWN
+    childType: FINANCIAL_TYPE.CHILD_UNKNOWN,
   }
 }
 
@@ -109,15 +109,15 @@ function calTotalAmount() {
       <p class="mr-2 font-bold">
         <tools-financial-statement-currency :amount="totalAmount" />
       </p>
-      <el-button class="tiny-btn mr-1 flex items-center" @click="calTotalAmount">
+      <el-button class="mr-1 flex items-center tiny-btn" @click="calTotalAmount">
         <div class="i-carbon-calculator w-4" />
         <span class="ml-2">정산</span>
       </el-button>
-      <el-button class="tiny-btn mr-1 flex items-center" @click="alignFinancialRows">
+      <el-button class="mr-1 flex items-center tiny-btn" @click="alignFinancialRows">
         <div class="i-carbon-text-align-mixed w-4" />
         <span class="ml-2">정렬</span>
       </el-button>
-      <el-button class="tiny-btn flex items-center" @click="addFinancial">
+      <el-button class="flex items-center tiny-btn" @click="addFinancial">
         <div class="i-carbon-add w-4" />
         <span class="ml-2">추가</span>
       </el-button>

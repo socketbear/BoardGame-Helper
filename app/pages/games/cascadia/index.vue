@@ -5,6 +5,8 @@ import CascadiaHistoryViewer from '~/components/tools/CascadiaHistoryViewer.vue'
 import PlayerNameEditor from '~/components/tools/PlayerNameEditor.vue'
 import { useIndexedDB } from '~/composables/useIndexedDB'
 
+definePageMeta({ layout: 'game' })
+
 const ANIMALS = {
   BEAR: { name: '곰', color: '#4C3228' },
   ELK: { name: '엘크', color: '#C1801E' },

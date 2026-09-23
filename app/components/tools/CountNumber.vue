@@ -27,7 +27,8 @@ onMounted(() => {
     })
   }
   const animateNumber = useThrottleFn(() => {
-    appliedValue.value = props.modelValue - countNumber.val
+    // 카운트 도중 값이 또 바뀌면 countNumber.val 이 소수라 증감이 긴 소수로 나온다
+    appliedValue.value = Math.round(props.modelValue - countNumber.val)
     gsap.to(countNumber, {
       duration: 1,
       val: props.modelValue,

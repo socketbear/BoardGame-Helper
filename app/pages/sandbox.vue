@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { useBoardData } from '~/composables/data'
+import { BOARD_GAME } from '~/types/RichEnums'
+
 const { info } = useLogger()
 const countNumber = ref(0)
 const setterNumber = ref(0)
 const unitStore = useUnitStore()
-import { BOARD_GAME } from '~/types/RichEnums'
 const boardData = await useBoardData(BOARD_GAME.RICH)
 
 function handleUnitSelect(unit: string) {
@@ -30,7 +31,7 @@ const treeValue = ref('')
 </script>
 
 <template>
-  <div class="p-4 sandbox">
+  <div class="sandbox p-4">
     <h2 class="mb-4 text-xl font-bold">
       단위 선택기 데모
     </h2>
@@ -47,7 +48,7 @@ const treeValue = ref('')
       :data="boardData!.typeList"
       :props="{
         value: 'id',
-        label: 'name'
+        label: 'name',
       }"
       :render-after-expand="false"
       clearable

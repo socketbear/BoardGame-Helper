@@ -17,13 +17,16 @@ useHead({
 html,
 body,
 #__nuxt {
-  height: 100vh;
+  min-height: 100dvh;
   margin: 0;
   padding: 0;
 }
 
+html {
+  color-scheme: light;
+}
+
 html.dark {
-  background: #222;
-  color: white;
+  color-scheme: dark;
 }
 </style>

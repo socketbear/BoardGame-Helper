@@ -35,7 +35,9 @@ class Typer {
     this.delayVariance = Number.parseInt(element.dataset.delayVariance || '0')
     this.delay = Number.parseInt(element.dataset.delay || '200')
     this.loop = element.dataset.loop || 'true'
-    if (this.loop === 'false') { this.loop = 1 }
+    if (this.loop === 'false') {
+      this.loop = 1
+    }
     this.deleteDelay = Number.parseInt(element.dataset.deletedelay || element.dataset.deleteDelay || '800')
 
     this.progress = { word: 0, char: 0, building: true, looped: 0 }
@@ -116,7 +118,9 @@ class Typer {
     }
 
     setTimeout(() => {
-      if (this.typing) { this.doTyping() };
+      if (this.typing) {
+        this.doTyping()
+      }
     }, atWordEnd ? this.deleteDelay : timeoutDelay)
   }
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { IFinancial, IFinancialTypeList } from '~/types/RichTypes'
+import type { IFinancialTypeList } from '~/types/RichTypes'
 import { FINANCIAL_TYPE, IN_OUT } from '~/types/RichEnums'
 
 const props = defineProps<{

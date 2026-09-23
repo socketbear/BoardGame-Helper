@@ -1,0 +1,36 @@
+:root {
+  --shell-bg: #ffffff;
+  --shell-bg-muted: #f9fafb;
+  --shell-bg-elevated: #ffffff;
+  --shell-border: rgb(229 231 235 / 0.85);
+  --shell-text: #111827;
+  --shell-text-muted: #4b5563;
+  --shell-text-subtle: #9ca3af;
+  --shell-accent: #0d9488;
+  --shell-accent-text: #0f766e;
+  --shell-accent-muted: #ecfdf5;
+  --shell-hover-bg: #f3f4f6;
+  --shell-overlay: rgb(0 0 0 / 0.4);
+  --shell-shadow: 0 10px 25px rgb(0 0 0 / 0.1);
+}
+
+html.dark {
+  --shell-bg: #111827;
+  --shell-bg-muted: #0f172a;
+  --shell-bg-elevated: #1f2937;
+  --shell-border: rgb(55 65 81 / 0.85);
+  --shell-text: #f9fafb;
+  --shell-text-muted: #d1d5db;
+  --shell-text-subtle: #9ca3af;
+  --shell-accent: #2dd4bf;
+  --shell-accent-text: #5eead4;
+  --shell-accent-muted: #042f2e;
+  --shell-hover-bg: #1f2937;
+  --shell-overlay: rgb(0 0 0 / 0.55);
+  --shell-shadow: 0 10px 25px rgb(0 0 0 / 0.35);
+}
+
+html {
+  background: var(--shell-bg);
+  color: var(--shell-text);
+}
