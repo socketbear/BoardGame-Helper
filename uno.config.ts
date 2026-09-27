@@ -9,10 +9,22 @@ import {
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
+import { ADJUSTS as adjusts, COLORS as colors } from './app/types/RichEnums'
 
-const colors: string[] = ['red', 'blue', 'green', 'orange', 'amber', 'yellow', 'lime', 'emerald', 'teal', 'cyan', 'sky', 'indigo', 'violet', 'purple', 'pink', 'rose']
-const adjusts: string[] = ['200', '300', '400', '500', '600', '700', '800', '900']
+// 기본 팔레트에 없는 색. 400 은 기본 글자색이 읽히는 밝기, 600 은 테두리용이라 두 톤은 꼭 있어야 한다.
+const customColors = {
+  coral: { 50: '#fef3f0', 100: '#fde4dd', 200: '#fbc8bb', 300: '#f9a590', 400: '#f67655', 500: '#f3461b', 600: '#d0320b', 700: '#aa2909', 800: '#882107', 900: '#6b1a06', 950: '#441004' },
+  brown: { 50: '#faf7f4', 100: '#f4ede6', 200: '#e9dace', 300: '#dbc3ae', 400: '#c8a384', 500: '#b5845a', 600: '#976b44', 700: '#7b5737', 800: '#63462c', 900: '#4d3723', 950: '#312316' },
+  gold: { 50: '#fcfaf3', 100: '#f8f3e2', 200: '#f1e6c6', 300: '#e8d6a1', 400: '#dbc170', 500: '#cfab3f', 600: '#af8f2c', 700: '#8f7424', 800: '#725d1d', 900: '#5a4916', 950: '#392e0e' },
+  olive: { 50: '#fafaf4', 100: '#f3f4e6', 200: '#e8e9ce', 300: '#d9dbae', 400: '#c5c884', 500: '#b2b55a', 600: '#959744', 700: '#797b37', 800: '#61632c', 900: '#4c4d23', 950: '#303116' },
+  mint: { 50: '#f4fbf8', 100: '#e4f6ef', 200: '#c9edde', 300: '#a7e2c9', 400: '#79d2ad', 500: '#4bc391', 600: '#37a477', 700: '#2d8661', 800: '#246b4d', 900: '#1c543d', 950: '#123627' },
+  navy: { 50: '#f4f6fb', 100: '#e5e9f5', 200: '#cbd3eb', 300: '#aab7df', 400: '#7e92ce', 500: '#516cbd', 600: '#3c559f', 700: '#314581', 800: '#273768', 900: '#1f2b51', 950: '#141c34' },
+}
+
 export default defineConfig({
+  theme: {
+    colors: customColors,
+  },
   shortcuts: [
     ['btn', 'px-4 py-1 rounded inline-block bg-teal-600 text-white cursor-pointer hover:bg-teal-700 disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50'],
     ['icon-btn', 'inline-block cursor-pointer select-none opacity-75 transition duration-200 ease-in-out hover:opacity-100 hover:text-teal-600'],

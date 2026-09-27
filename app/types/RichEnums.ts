@@ -23,5 +23,33 @@ export enum STAGE {
   PREPARE, START, END,
 }
 
-export const COLORS: string[] = ['red', 'blue', 'green', 'orange', 'amber', 'yellow', 'lime', 'emerald', 'teal', 'cyan', 'sky', 'indigo', 'violet', 'purple', 'pink', 'rose']
+// 400 톤 색상각(hue) 순. 채도 낮은 slate·stone 은 맨 뒤. uno.config.ts safelist 도 이 목록을 쓴다.
+// coral·brown·gold·olive·mint·navy 는 기본 팔레트에 없어서 uno.config.ts theme 에 정의돼 있다.
+export const COLORS: string[] = [
+  'red',
+  'coral',
+  'orange',
+  'brown',
+  'amber',
+  'gold',
+  'yellow',
+  'olive',
+  'lime',
+  'green',
+  'mint',
+  'emerald',
+  'teal',
+  'cyan',
+  'sky',
+  'blue',
+  'navy',
+  'indigo',
+  'violet',
+  'purple',
+  'fuchsia',
+  'pink',
+  'rose',
+  'slate',
+  'stone',
+]
 export const ADJUSTS: string[] = ['200', '300', '400', '500', '600', '700', '800', '900']
