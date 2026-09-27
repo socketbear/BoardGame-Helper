@@ -224,7 +224,7 @@ function start() {
               <div i-carbon-close-filled />
             </button>
           </div>
-          <div class="min-w-0 flex flex-1 gap-1 overflow-x-auto whitespace-nowrap">
+          <div class="min-w-0 flex flex-1 gap-1 overflow-x-auto whitespace-nowrap pl-1">
             <button
               v-for="chip in playerNameChips"
               :key="`player-name-${chip}`"
