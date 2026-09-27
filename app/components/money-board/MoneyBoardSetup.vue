@@ -86,9 +86,62 @@ function deletePlayer(player: PlayerDraft) {
   players.value = players.value.filter(p => p.key !== player.key)
 }
 
+const PLAYER_NAMES_STORAGE_KEY = 'money-board-player-names'
+// 자동 기본값(Player1 류)은 사용자가 직접 입력한 이름이 아니므로 저장하지 않는다.
+const AUTO_PLAYER_NAME = /^Player\d+$/
+const MAX_SAVED_PLAYER_NAMES = 10
+
+/** 최근 사용한 플레이어 이름의 원본 JSON. localStorage 접근은 onMounted(읽기)·완료 버튼(쓰기) 에서만 한다. */
+const savedPlayerNamesRaw = ref('')
+
+/** 모든 플레이어 행이 공유하는 칩 목록. 편의 캐시라서 파싱에 실패하면 조용히 칩 없이 진행한다. */
+const playerNameChips = computed(() => {
+  try {
+    const parsed: unknown = JSON.parse(savedPlayerNamesRaw.value)
+    if (!Array.isArray(parsed))
+      return []
+    return [...new Set(parsed.filter((name): name is string => typeof name === 'string'))]
+  }
+  catch {
+    return []
+  }
+})
+
+onMounted(() => {
+  try {
+    savedPlayerNamesRaw.value = localStorage.getItem(PLAYER_NAMES_STORAGE_KEY) ?? ''
+  }
+  catch {
+    // 편의 캐시라서 읽기에 실패해도 조용히 넘어간다.
+  }
+})
+
+function savePlayerNames() {
+  // 이번에 완료한 이름을 앞에 두고, 이미 저장된 이름을 뒤에 이어 붙여 중복을 없앤다(최근 사용 이름이 앞으로 온다).
+  const merged: string[] = []
+  const usedNames = players.value
+    .map(p => p.name.trim())
+    .filter(name => name !== '' && !AUTO_PLAYER_NAME.test(name))
+
+  for (const name of [...usedNames, ...playerNameChips.value]) {
+    if (!merged.includes(name))
+      merged.push(name)
+  }
+
+  const raw = JSON.stringify(merged.slice(0, MAX_SAVED_PLAYER_NAMES))
+  savedPlayerNamesRaw.value = raw
+  try {
+    localStorage.setItem(PLAYER_NAMES_STORAGE_KEY, raw)
+  }
+  catch {
+    // 편의 캐시라서 저장에 실패해도 조용히 넘어간다.
+  }
+}
+
 const canStart = computed(() => players.value.length > 0)
 
 function start() {
+  savePlayerNames()
   const bankActor: ActorDraft = {
     name: bank.name,
     color: bank.color,
@@ -163,12 +216,22 @@ function start() {
             플레이어 {{ idx + 1 }}
           </h2>
           <div class="relative min-w-0">
-            <input v-model="player.name" type="text" class="w-full border p-2 pr-8" placeholder="이름을 입력해 주세요.">
+            <input v-model="player.name" type="text" class="w-32 shrink-0 border p-2 pr-8" placeholder="이름을 입력해 주세요.">
             <button
               class="absolute right-2 top-3 hover:text-red-600 active:hover:text-red-400"
               @click="player.name = ''"
             >
               <div i-carbon-close-filled />
+            </button>
+          </div>
+          <div class="min-w-0 flex flex-1 gap-1 overflow-x-auto whitespace-nowrap pl-1">
+            <button
+              v-for="chip in playerNameChips"
+              :key="`player-name-${chip}`"
+              class="h-8 flex cursor-pointer items-center rounded-xl bg-gray-200 p-2 text-center name-tag"
+              @click="player.name = chip"
+            >
+              {{ chip }}
             </button>
           </div>
         </div>
